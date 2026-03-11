@@ -39,10 +39,9 @@ uv run python -m src.cli analyze --repo .
 uv run python -m src.cli query "What is this repository?"
 ```
 
-The `analyze` command now performs Stage 3 repository preparation and
-structural analysis. It accepts either a local repository path or a Git URL
-and writes deterministic inventory plus structural artifacts under
-`.cartography/`.
+The `analyze` command now performs Stage 4 analysis. It accepts either a local
+repository path or a Git URL and writes deterministic inventory, structural,
+module-graph, and survey-summary artifacts under `.cartography/`.
 
 ## Stage 1 Typed Contracts
 
@@ -81,3 +80,18 @@ Stage 3 adds:
 Stage 3 remains structural-only and does not introduce module graph ranking,
 git velocity analysis, SQL lineage extraction, graph algorithms, LangGraph
 workflows, embeddings, or LLM execution.
+
+## Stage 4 Surveyor Agent
+
+Stage 4 adds:
+- a `SurveyorAgent` that consumes manifest and structural artifacts
+- deterministic module graph construction for supported code modules
+- recent git-change velocity signals with graceful degradation when history is
+  unavailable
+- PageRank hub ranking and strongly connected component detection
+- conservative dead code candidate heuristics
+- deterministic `module_graph.json` and `survey_summary.json` artifacts
+
+Stage 4 remains architectural-only and does not introduce SQL lineage,
+Hydrologist logic, semantic indexing, LangGraph workflows, embeddings, or LLM
+execution.

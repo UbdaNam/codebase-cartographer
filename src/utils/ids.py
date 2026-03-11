@@ -65,6 +65,12 @@ def build_artifact_id(
     return stable_id("artifact", canonicalize_name(artifact_kind), name_part, path_part)
 
 
+def build_module_dependency_key(source_module_id: str, target_display: str) -> str:
+    """Build a deterministic key for one source-to-target dependency."""
+
+    return stable_id("module_dependency", source_module_id, canonicalize_name(target_display))
+
+
 def canonicalize_json_value(value: Any) -> Any:
     """Recursively normalize payload values for deterministic JSON output."""
 
