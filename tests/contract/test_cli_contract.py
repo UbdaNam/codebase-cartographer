@@ -7,11 +7,11 @@ from src.cli import app
 runner = CliRunner()
 
 
-def test_query_is_a_stage3_stub() -> None:
+def test_query_is_a_stage4_stub() -> None:
     result = runner.invoke(app, ["query", "What is this repository?"])
 
     assert result.exit_code == 0
-    assert "not implemented in Stage 3" in result.stdout
+    assert "not implemented in Stage 4" in result.stdout
 
 
 def test_analyze_returns_json_summary(tmp_path: Path) -> None:
@@ -21,3 +21,4 @@ def test_analyze_returns_json_summary(tmp_path: Path) -> None:
 
     assert result.exit_code == 0
     assert '"status": "completed"' in result.stdout
+    assert '"module_graph_path"' in result.stdout
