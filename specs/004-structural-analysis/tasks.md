@@ -30,10 +30,10 @@ implementation and testing of each story.
 
 **Purpose**: Prepare Stage 3 dependencies, fixture layout, and documentation
 
-- [ ] T001 Confirm `pyproject.toml` includes the Stage 3 Python 3.11+, Pydantic v2, pydantic-settings, Typer, pytest, and tree-sitter baseline
-- [ ] T002 Create the Stage 3 fixture repository directories in `tests/fixtures/structural_local_repo/`, `tests/fixtures/structural_polyglot_repo/`, and `tests/fixtures/structural_malformed_repo/`
-- [ ] T003 [P] Update the Stage 3 overview and CLI expectations in `README.md`
-- [ ] T004 [P] Add Stage 3 validation notes and fixture usage guidance in `specs/004-structural-analysis/quickstart.md`
+- [X] T001 Confirm `pyproject.toml` includes the Stage 3 Python 3.11+, Pydantic v2, pydantic-settings, Typer, pytest, and tree-sitter baseline
+- [X] T002 Create the Stage 3 fixture repository directories in `tests/fixtures/structural_local_repo/`, `tests/fixtures/structural_polyglot_repo/`, and `tests/fixtures/structural_malformed_repo/`
+- [X] T003 [P] Update the Stage 3 overview and CLI expectations in `README.md`
+- [X] T004 [P] Add Stage 3 validation notes and fixture usage guidance in `specs/004-structural-analysis/quickstart.md`
 
 ---
 
@@ -43,12 +43,12 @@ implementation and testing of each story.
 
 **CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T005 Create typed repository input and prepared-repository models in `src/models/repository_input.py`
-- [ ] T006 [P] Create typed structural result and artifact payload models in `src/models/structural.py`
-- [ ] T007 [P] Add Stage 3 repository-preparation and structural artifact settings in `src/config.py` and `src/constants.py`
-- [ ] T008 [P] Add deterministic repository identity and prepared-repo path helpers in `src/utils/ids.py`
-- [ ] T009 Implement centralized `LanguageRouter` capability and parser-routing contracts in `src/utils/language_router.py`
-- [ ] T010 [P] Add foundational unit coverage for repository identity, structural models, and language routing in `tests/unit/test_repository_input_models.py`, `tests/unit/test_structural_models.py`, and `tests/unit/test_language_router.py`
+- [X] T005 Create typed repository input and prepared-repository models in `src/models/repository_input.py`
+- [X] T006 [P] Create typed structural result and artifact payload models in `src/models/structural.py`
+- [X] T007 [P] Add Stage 3 repository-preparation and structural artifact settings in `src/config.py` and `src/constants.py`
+- [X] T008 [P] Add deterministic repository identity and prepared-repo path helpers in `src/utils/ids.py`
+- [X] T009 Implement centralized `LanguageRouter` capability and parser-routing contracts in `src/utils/language_router.py`
+- [X] T010 [P] Add foundational unit coverage for repository identity, structural models, and language routing in `tests/unit/test_repository_input_models.py`, `tests/unit/test_structural_models.py`, and `tests/unit/test_language_router.py`
 
 **Checkpoint**: Foundation ready; repository preparation and structural extraction stories can now begin
 
@@ -64,17 +64,17 @@ implementation and testing of each story.
 
 > **NOTE**: Write these tests FIRST and ensure they FAIL before implementation
 
-- [ ] T011 [P] [US1] Add repository-input model and validation tests in `tests/unit/test_repository_input_models.py`
-- [ ] T012 [P] [US1] Add repository preparation and clone-reuse tests in `tests/integration/test_repository_preparation.py`
-- [ ] T013 [P] [US1] Add CLI and orchestrator repository-input resolution tests in `tests/contract/test_repository_input_cli_contract.py`
+- [X] T011 [P] [US1] Add repository-input model and validation tests in `tests/unit/test_repository_input_models.py`
+- [X] T012 [P] [US1] Add repository preparation and clone-reuse tests in `tests/integration/test_repository_preparation.py`
+- [X] T013 [P] [US1] Add CLI and orchestrator repository-input resolution tests in `tests/contract/test_repository_input_cli_contract.py`
 
 ### Implementation for User Story 1
 
-- [ ] T014 [P] [US1] Implement repository input parsing and URL detection in `src/models/repository_input.py` and `src/utils/repository_preparation.py`
-- [ ] T015 [US1] Implement shallow clone, local path validation, and clone-reuse behavior in `src/utils/repository_preparation.py`
-- [ ] T016 [US1] Integrate repository preparation into the analyze flow in `src/orchestrator.py`
-- [ ] T017 [US1] Update the CLI analyze entrypoint to accept local paths and Git URLs in `src/cli.py`
-- [ ] T018 [US1] Add prepared-repository metadata and artifact-path updates in `src/models/state.py` and `src/models/run_metadata.py`
+- [X] T014 [P] [US1] Implement repository input parsing and URL detection in `src/models/repository_input.py` and `src/utils/repository_preparation.py`
+- [X] T015 [US1] Implement shallow clone, local path validation, and clone-reuse behavior in `src/utils/repository_preparation.py`
+- [X] T016 [US1] Integrate repository preparation into the analyze flow in `src/orchestrator.py`
+- [X] T017 [US1] Update the CLI analyze entrypoint to accept local paths and Git URLs in `src/cli.py`
+- [X] T018 [US1] Add prepared-repository metadata and artifact-path updates in `src/models/state.py` and `src/models/run_metadata.py`
 
 **Checkpoint**: User Story 1 should be fully functional and independently testable as the Stage 3 MVP
 
@@ -88,19 +88,19 @@ implementation and testing of each story.
 
 ### Tests for User Story 2
 
-- [ ] T019 [P] [US2] Add language-router coverage for supported and partial languages in `tests/unit/test_language_router.py`
-- [ ] T020 [P] [US2] Add mixed-language structural extraction tests in `tests/unit/test_tree_sitter_analyzer.py`
-- [ ] T021 [P] [US2] Add structural artifact serialization and manifest-integration tests in `tests/integration/test_structural_analysis_pipeline.py`
-- [ ] T022 [P] [US2] Add mixed-language fixture repository contents for Python, SQL, YAML, JavaScript, TypeScript, notebooks, and shell files in `tests/fixtures/structural_polyglot_repo/`
+- [X] T019 [P] [US2] Add language-router coverage for supported and partial languages in `tests/unit/test_language_router.py`
+- [X] T020 [P] [US2] Add mixed-language structural extraction tests in `tests/unit/test_tree_sitter_analyzer.py`
+- [X] T021 [P] [US2] Add structural artifact serialization and manifest-integration tests in `tests/integration/test_structural_analysis_pipeline.py`
+- [X] T022 [P] [US2] Add mixed-language fixture repository contents for Python, SQL, YAML, JavaScript, TypeScript, notebooks, and shell files in `tests/fixtures/structural_polyglot_repo/`
 
 ### Implementation for User Story 2
 
-- [ ] T023 [P] [US2] Implement tree-sitter parser initialization and analyzer scaffolding in `src/analyzers/tree_sitter_analyzer.py`
-- [ ] T024 [US2] Implement manifest-scoped language routing and eligible-file selection in `src/utils/language_router.py` and `src/analyzers/tree_sitter_analyzer.py`
-- [ ] T025 [US2] Implement typed structural record creation with evidence metadata in `src/analyzers/tree_sitter_analyzer.py` and `src/models/structural.py`
-- [ ] T026 [US2] Add deterministic structural artifact serialization in `src/utils/artifacts.py` and `src/models/artifacts.py`
-- [ ] T027 [US2] Integrate structural extraction outputs into orchestrator analyze summaries in `src/orchestrator.py`
-- [ ] T028 [US2] Document public structural-analysis artifact expectations in `specs/004-structural-analysis/contracts/structural-analysis-contract.md`
+- [X] T023 [P] [US2] Implement tree-sitter parser initialization and analyzer scaffolding in `src/analyzers/tree_sitter_analyzer.py`
+- [X] T024 [US2] Implement manifest-scoped language routing and eligible-file selection in `src/utils/language_router.py` and `src/analyzers/tree_sitter_analyzer.py`
+- [X] T025 [US2] Implement typed structural record creation with evidence metadata in `src/analyzers/tree_sitter_analyzer.py` and `src/models/structural.py`
+- [X] T026 [US2] Add deterministic structural artifact serialization in `src/utils/artifacts.py` and `src/models/artifacts.py`
+- [X] T027 [US2] Integrate structural extraction outputs into orchestrator analyze summaries in `src/orchestrator.py`
+- [X] T028 [US2] Document public structural-analysis artifact expectations in `specs/004-structural-analysis/contracts/structural-analysis-contract.md`
 
 **Checkpoint**: User Story 2 should be independently testable with mixed-language structural extraction and deterministic artifact output
 
@@ -114,16 +114,16 @@ implementation and testing of each story.
 
 ### Tests for User Story 3
 
-- [ ] T029 [P] [US3] Add malformed-file and parser-failure tests in `tests/unit/test_tree_sitter_analyzer.py`
-- [ ] T030 [P] [US3] Add unsupported and partially supported file handling tests in `tests/integration/test_structural_analysis_pipeline.py`
-- [ ] T031 [P] [US3] Add malformed and degraded fixture repository contents in `tests/fixtures/structural_malformed_repo/`
+- [X] T029 [P] [US3] Add malformed-file and parser-failure tests in `tests/unit/test_tree_sitter_analyzer.py`
+- [X] T030 [P] [US3] Add unsupported and partially supported file handling tests in `tests/integration/test_structural_analysis_pipeline.py`
+- [X] T031 [P] [US3] Add malformed and degraded fixture repository contents in `tests/fixtures/structural_malformed_repo/`
 
 ### Implementation for User Story 3
 
-- [ ] T032 [P] [US3] Implement structured parse warnings, partial-result signaling, and failure capture in `src/analyzers/tree_sitter_analyzer.py`
-- [ ] T033 [US3] Integrate degraded-outcome tracking with analysis state in `src/models/state.py` and `src/models/structural.py`
-- [ ] T034 [US3] Ensure unsupported and manifest-ineligible files are excluded from deep parsing while preserving structured outcomes in `src/analyzers/tree_sitter_analyzer.py` and `src/orchestrator.py`
-- [ ] T035 [US3] Update analyze-path summary text for partial, malformed, and unsupported structural outcomes in `src/cli.py` and `src/orchestrator.py`
+- [X] T032 [P] [US3] Implement structured parse warnings, partial-result signaling, and failure capture in `src/analyzers/tree_sitter_analyzer.py`
+- [X] T033 [US3] Integrate degraded-outcome tracking with analysis state in `src/models/state.py` and `src/models/structural.py`
+- [X] T034 [US3] Ensure unsupported and manifest-ineligible files are excluded from deep parsing while preserving structured outcomes in `src/analyzers/tree_sitter_analyzer.py` and `src/orchestrator.py`
+- [X] T035 [US3] Update analyze-path summary text for partial, malformed, and unsupported structural outcomes in `src/cli.py` and `src/orchestrator.py`
 
 **Checkpoint**: All user stories should now be independently functional and safe for brownfield structural analysis
 
@@ -133,10 +133,10 @@ implementation and testing of each story.
 
 **Purpose**: Final validation and cleanup across Stage 3 repository preparation and structural analysis behavior
 
-- [ ] T036 [P] Run the full pytest suite for Stage 3 repository preparation and structural extraction coverage in `tests/unit/`, `tests/integration/`, and `tests/contract/`
-- [ ] T037 [P] Validate local-path and Git-URL quickstart behavior against `specs/004-structural-analysis/quickstart.md`
-- [ ] T038 Verify deterministic repository preparation reuse, structural artifact ordering, and output placement across `src/utils/repository_preparation.py`, `src/analyzers/tree_sitter_analyzer.py`, `src/utils/artifacts.py`, and `src/orchestrator.py`
-- [ ] T039 [P] Clean up docstrings, typing, and field descriptions in `src/models/repository_input.py`, `src/models/structural.py`, `src/utils/language_router.py`, `src/utils/repository_preparation.py`, and `src/analyzers/tree_sitter_analyzer.py`
+- [X] T036 [P] Run the full pytest suite for Stage 3 repository preparation and structural extraction coverage in `tests/unit/`, `tests/integration/`, and `tests/contract/`
+- [X] T037 [P] Validate local-path and Git-URL quickstart behavior against `specs/004-structural-analysis/quickstart.md`
+- [X] T038 Verify deterministic repository preparation reuse, structural artifact ordering, and output placement across `src/utils/repository_preparation.py`, `src/analyzers/tree_sitter_analyzer.py`, `src/utils/artifacts.py`, and `src/orchestrator.py`
+- [X] T039 [P] Clean up docstrings, typing, and field descriptions in `src/models/repository_input.py`, `src/models/structural.py`, `src/utils/language_router.py`, `src/utils/repository_preparation.py`, and `src/analyzers/tree_sitter_analyzer.py`
 
 ---
 

@@ -39,8 +39,10 @@ uv run python -m src.cli analyze --repo .
 uv run python -m src.cli query "What is this repository?"
 ```
 
-The `analyze` command now performs Stage 2 repository inventory and writes a
-deterministic `manifest.json` and `inventory_summary.json` under `.cartography/`.
+The `analyze` command now performs Stage 3 repository preparation and
+structural analysis. It accepts either a local repository path or a Git URL
+and writes deterministic inventory plus structural artifacts under
+`.cartography/`.
 
 ## Stage 1 Typed Contracts
 
@@ -64,3 +66,18 @@ Stage 2 adds:
 
 Stage 2 remains inventory-only and does not introduce AST parsing, lineage
 extraction, graph algorithms, or agent execution.
+
+## Stage 3 Structural Analysis
+
+Stage 3 adds:
+- repository input resolution for local paths and Git-style URLs
+- prepared repository reuse under `.cartography/repos/`
+- centralized language routing for parser-backed structural extraction
+- deterministic `structural_index.json`, `ast_index.json`, and
+  `structural_summary.json` artifacts
+- Surveyor-ready static-analysis records with file and line evidence where
+  available
+
+Stage 3 remains structural-only and does not introduce module graph ranking,
+git velocity analysis, SQL lineage extraction, graph algorithms, LangGraph
+workflows, embeddings, or LLM execution.

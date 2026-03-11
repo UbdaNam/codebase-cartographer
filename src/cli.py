@@ -1,8 +1,6 @@
-"""Typer CLI for Brownfield Cartographer inventory and query flows."""
+"""Typer CLI for Brownfield Cartographer analyze and query flows."""
 
 from __future__ import annotations
-
-from pathlib import Path
 
 import typer
 
@@ -13,10 +11,10 @@ app = typer.Typer(help="Brownfield Cartographer CLI.")
 
 
 @app.command()
-def analyze(repo: Path = typer.Option(Path("."), "--repo", exists=True, file_okay=False)) -> None:
-    """Initialize a Stage 2 repository inventory run."""
+def analyze(repo: str = typer.Option(".", "--repo")) -> None:
+    """Initialize a Stage 3 repository preparation and structural analysis run."""
 
-    settings = AppSettings(repo_root=repo.resolve())
+    settings = AppSettings()
     orchestrator = CartographyOrchestrator(settings)
     summary = orchestrator.analyze(repo)
     typer.echo(summary.model_dump_json(indent=2))
@@ -24,7 +22,7 @@ def analyze(repo: Path = typer.Option(Path("."), "--repo", exists=True, file_oka
 
 @app.command()
 def query(question: str) -> None:
-    """Return the Stage 2 query stub response."""
+    """Return the Stage 3 query stub response."""
 
     settings = AppSettings()
     orchestrator = CartographyOrchestrator(settings)

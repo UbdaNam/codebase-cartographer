@@ -8,8 +8,9 @@ from pathlib import Path
 from uuid import uuid4
 
 from src.config import AppSettings
-from src.models.manifest import ManifestSummary, RepositoryManifest
+from src.models.manifest import RepositoryManifest
 from src.models.run_metadata import RunContext, RunStatus, RunSummary
+from src.models.structural import AstIndexPayload, StructuralIndexPayload, StructuralSummary
 
 
 def initialize_artifact_dirs(settings: AppSettings) -> dict[str, Path]:
@@ -19,9 +20,10 @@ def initialize_artifact_dirs(settings: AppSettings) -> dict[str, Path]:
     runs = root / settings.runs_dir_name
     cache = root / settings.cache_dir_name
     logs = root / settings.logs_dir_name
-    for directory in (root, runs, cache, logs):
+    repos = root / settings.repos_dir_name
+    for directory in (root, runs, cache, logs, repos):
         directory.mkdir(parents=True, exist_ok=True)
-    return {"root": root, "runs": runs, "cache": cache, "logs": logs}
+    return {"root": root, "runs": runs, "cache": cache, "logs": logs, "repos": repos}
 
 
 def create_run_context(settings: AppSettings, branch: str = "local") -> tuple[RunContext, Path]:
@@ -82,3 +84,20 @@ def write_inventory_artifacts(
     write_json(manifest_path, manifest)
     write_json(summary_path, manifest.summary)
     return manifest_path, summary_path
+
+
+def write_structural_artifacts(
+    run_dir: Path,
+    structural_index: StructuralIndexPayload,
+    ast_index: AstIndexPayload,
+    settings: AppSettings,
+) -> tuple[Path, Path, Path]:
+    """Persist Stage 3 structural artifacts and summary."""
+
+    structural_index_path = run_dir / "structural_index.json"
+    ast_index_path = run_dir / "ast_index.json"
+    structural_summary_path = settings.structural_summary_path(run_dir)
+    write_json(structural_index_path, structural_index)
+    write_json(ast_index_path, ast_index)
+    write_json(structural_summary_path, structural_index.summary)
+    return structural_index_path, ast_index_path, structural_summary_path

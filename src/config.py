@@ -15,6 +15,7 @@ from src.constants import (
     DEFAULT_IGNORE_FILE_NAMES,
     DEFAULT_IGNORE_FILE_PATTERNS,
     DEFAULT_LOGS_DIR,
+    DEFAULT_REPOS_DIR,
     DEFAULT_RUNS_DIR,
     DEFAULT_SECRET_FILE_PATTERNS,
     DEFAULT_SUPPORTED_EXTENSIONS,
@@ -52,6 +53,7 @@ class AppSettings(BaseSettings):
     cache_dir_name: str = DEFAULT_CACHE_DIR
     runs_dir_name: str = DEFAULT_RUNS_DIR
     logs_dir_name: str = DEFAULT_LOGS_DIR
+    repos_dir_name: str = DEFAULT_REPOS_DIR
 
     @field_validator("repo_root", mode="before")
     @classmethod
@@ -82,3 +84,8 @@ class AppSettings(BaseSettings):
         """Return the inventory summary output path for a run directory."""
 
         return run_dir / "inventory_summary.json"
+
+    def structural_summary_path(self, run_dir: Path) -> Path:
+        """Return the structural summary output path for a run directory."""
+
+        return run_dir / "structural_summary.json"
