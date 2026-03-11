@@ -57,6 +57,16 @@ Stage 2 manifest outputs MUST provide:
 Manifest records MUST remain usable by later structural parsing, SQL lineage,
 config analysis, and incremental re-analysis stages.
 
+Expected per-record fields include:
+- root-relative path
+- deterministic file identity
+- extension
+- normalized language label
+- support status
+- parse-eligibility flag
+- structured skip reason when excluded
+- bounded metadata and notes for downstream analyzers
+
 ## Output Contract
 
 Stage 2 MUST persist:

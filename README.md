@@ -39,8 +39,8 @@ uv run python -m src.cli analyze --repo .
 uv run python -m src.cli query "What is this repository?"
 ```
 
-The `analyze` command performs manifest-only Stage 0 analysis and writes
-deterministic metadata under `.cartography/`.
+The `analyze` command now performs Stage 2 repository inventory and writes a
+deterministic `manifest.json` and `inventory_summary.json` under `.cartography/`.
 
 ## Stage 1 Typed Contracts
 
@@ -52,3 +52,15 @@ Stage 1 adds:
 
 Stage 1 remains contract-only and does not introduce analyzers, graph
 algorithms, LangGraph workflows, or LLM execution.
+
+## Stage 2 Repository Inventory
+
+Stage 2 adds:
+- single-pass repository discovery
+- centralized mixed-language classification for Python, SQL, YAML,
+  JavaScript, TypeScript, JSON, notebooks, and shell files
+- structured skip reasons and parse-eligibility signaling
+- deterministic inventory manifest and summary artifacts for later analyzers
+
+Stage 2 remains inventory-only and does not introduce AST parsing, lineage
+extraction, graph algorithms, or agent execution.

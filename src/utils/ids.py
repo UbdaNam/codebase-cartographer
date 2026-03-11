@@ -25,7 +25,9 @@ def normalize_relative_path(path: str) -> str:
     if pure.is_absolute() or candidate.startswith("../") or "/../" in f"/{candidate}/":
         msg = f"path must stay relative to the analysis root: {path}"
         raise ValueError(msg)
-    normalized = pure.as_posix().lstrip("./")
+    normalized = pure.as_posix()
+    if normalized.startswith("./"):
+        normalized = normalized[2:]
     return normalized or "."
 
 

@@ -30,10 +30,10 @@ implementation and testing of each story.
 
 **Purpose**: Prepare the Stage 2 inventory file layout, docs, and test inputs
 
-- [ ] T001 Create the Stage 2 fixture repository directory `tests/fixtures/inventory_polyglot_repo/`
-- [ ] T002 Confirm `pyproject.toml` keeps the Stage 2 Python 3.11+, Pydantic v2, pydantic-settings, Typer, and pytest baseline
-- [ ] T003 [P] Update Stage 2 inventory overview text in `README.md`
-- [ ] T004 [P] Add Stage 2 fixture notes and expected inventory behavior in `specs/003-repo-inventory/quickstart.md`
+- [X] T001 Create the Stage 2 fixture repository directory `tests/fixtures/inventory_polyglot_repo/`
+- [X] T002 Confirm `pyproject.toml` keeps the Stage 2 Python 3.11+, Pydantic v2, pydantic-settings, Typer, and pytest baseline
+- [X] T003 [P] Update Stage 2 inventory overview text in `README.md`
+- [X] T004 [P] Add Stage 2 fixture notes and expected inventory behavior in `specs/003-repo-inventory/quickstart.md`
 
 ---
 
@@ -43,12 +43,12 @@ implementation and testing of each story.
 
 **CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T005 Extend the typed inventory and summary models for Stage 2 fields in `src/models/manifest.py`
-- [ ] T006 [P] Add any Stage 2 config defaults for language routing and bounded inventory behavior in `src/config.py` and `src/constants.py`
-- [ ] T007 [P] Refine centralized skip-reason enforcement for Stage 2 inventory decisions in `src/utils/ignore_policy.py`
-- [ ] T008 [P] Implement normalized file identity and deterministic inventory helper utilities in `src/utils/ids.py`
-- [ ] T009 Implement centralized mixed-language routing and parse-eligibility classification in `src/utils/file_classification.py`
-- [ ] T010 [P] Add foundational unit coverage for Stage 2 manifest fields, routing enums, and inventory helpers in `tests/unit/test_repository_manifest.py`, `tests/unit/test_file_classification.py`, and `tests/unit/test_ids.py`
+- [X] T005 Extend the typed inventory and summary models for Stage 2 fields in `src/models/manifest.py`
+- [X] T006 [P] Add any Stage 2 config defaults for language routing and bounded inventory behavior in `src/config.py` and `src/constants.py`
+- [X] T007 [P] Refine centralized skip-reason enforcement for Stage 2 inventory decisions in `src/utils/ignore_policy.py`
+- [X] T008 [P] Implement normalized file identity and deterministic inventory helper utilities in `src/utils/ids.py`
+- [X] T009 Implement centralized mixed-language routing and parse-eligibility classification in `src/utils/file_classification.py`
+- [X] T010 [P] Add foundational unit coverage for Stage 2 manifest fields, routing enums, and inventory helpers in `tests/unit/test_repository_manifest.py`, `tests/unit/test_file_classification.py`, and `tests/unit/test_ids.py`
 
 **Checkpoint**: Foundational inventory primitives are ready for story-specific discovery and integration work
 
@@ -64,17 +64,17 @@ implementation and testing of each story.
 
 > **NOTE**: Write these tests FIRST and ensure they FAIL before implementation
 
-- [ ] T011 [P] [US1] Add deterministic manifest and single-pass discovery tests in `tests/unit/test_repository_manifest.py`
-- [ ] T012 [P] [US1] Add inventory artifact serialization and summary stability tests in `tests/integration/test_safe_scan_manifest.py`
-- [ ] T013 [P] [US1] Add Stage 2 analyze-flow summary tests in `tests/integration/test_stage0_run_summary.py`
+- [X] T011 [P] [US1] Add deterministic manifest and single-pass discovery tests in `tests/unit/test_repository_manifest.py`
+- [X] T012 [P] [US1] Add inventory artifact serialization and summary stability tests in `tests/integration/test_safe_scan_manifest.py`
+- [X] T013 [P] [US1] Add Stage 2 analyze-flow summary tests in `tests/integration/test_stage0_run_summary.py`
 
 ### Implementation for User Story 1
 
-- [ ] T014 [P] [US1] Implement the Stage 2 repository walker and deterministic record assembly in `src/analyzers/repository_manifest.py`
-- [ ] T015 [US1] Implement inventory summary generation and parse-eligible counts in `src/analyzers/repository_manifest.py`
-- [ ] T016 [US1] Add deterministic manifest and summary serialization helpers in `src/utils/artifacts.py`
-- [ ] T017 [US1] Integrate Stage 2 inventory artifact generation into `src/orchestrator.py`
-- [ ] T018 [US1] Update the analyze output contract to surface Stage 2 inventory summary details in `src/models/state.py` and `src/models/run_metadata.py`
+- [X] T014 [P] [US1] Implement the Stage 2 repository walker and deterministic record assembly in `src/analyzers/repository_manifest.py`
+- [X] T015 [US1] Implement inventory summary generation and parse-eligible counts in `src/analyzers/repository_manifest.py`
+- [X] T016 [US1] Add deterministic manifest and summary serialization helpers in `src/utils/artifacts.py`
+- [X] T017 [US1] Integrate Stage 2 inventory artifact generation into `src/orchestrator.py`
+- [X] T018 [US1] Update the analyze output contract to surface Stage 2 inventory summary details in `src/models/state.py` and `src/models/run_metadata.py`
 
 **Checkpoint**: User Story 1 should be fully functional and independently testable as the Stage 2 MVP
 
@@ -88,16 +88,16 @@ implementation and testing of each story.
 
 ### Tests for User Story 2
 
-- [ ] T019 [P] [US2] Add mixed-language detection and support-status tests in `tests/unit/test_file_classification.py`
-- [ ] T020 [P] [US2] Add polyglot fixture inventory regression tests in `tests/unit/test_repository_manifest.py`
-- [ ] T021 [P] [US2] Add Stage 2 fixture repository contents for Python, SQL, YAML, JavaScript, TypeScript, JSON, notebooks, and shell files in `tests/fixtures/inventory_polyglot_repo/`
+- [X] T019 [P] [US2] Add mixed-language detection and support-status tests in `tests/unit/test_file_classification.py`
+- [X] T020 [P] [US2] Add polyglot fixture inventory regression tests in `tests/unit/test_repository_manifest.py`
+- [X] T021 [P] [US2] Add Stage 2 fixture repository contents for Python, SQL, YAML, JavaScript, TypeScript, JSON, notebooks, and shell files in `tests/fixtures/inventory_polyglot_repo/`
 
 ### Implementation for User Story 2
 
-- [ ] T022 [P] [US2] Expand extension and path-based routing rules for all required Stage 2 file classes in `src/constants.py` and `src/config.py`
-- [ ] T023 [US2] Implement normalized language labels, support-status mapping, and parse-eligibility signaling in `src/utils/file_classification.py`
-- [ ] T024 [US2] Extend manifest record creation to persist Stage 2 classification fields in `src/analyzers/repository_manifest.py` and `src/models/manifest.py`
-- [ ] T025 [US2] Document public inventory routing expectations in `specs/003-repo-inventory/contracts/inventory-contract.md`
+- [X] T022 [P] [US2] Expand extension and path-based routing rules for all required Stage 2 file classes in `src/constants.py` and `src/config.py`
+- [X] T023 [US2] Implement normalized language labels, support-status mapping, and parse-eligibility signaling in `src/utils/file_classification.py`
+- [X] T024 [US2] Extend manifest record creation to persist Stage 2 classification fields in `src/analyzers/repository_manifest.py` and `src/models/manifest.py`
+- [X] T025 [US2] Document public inventory routing expectations in `specs/003-repo-inventory/contracts/inventory-contract.md`
 
 **Checkpoint**: User Story 2 should be independently testable with mixed-language routing and stable classification outputs
 
@@ -111,16 +111,16 @@ implementation and testing of each story.
 
 ### Tests for User Story 3
 
-- [ ] T026 [P] [US3] Add secret-bearing, skipped-directory, and oversized-file tests in `tests/unit/test_ignore_policy.py`
-- [ ] T027 [P] [US3] Add unsupported-file and skip-reason coverage tests in `tests/unit/test_repository_manifest.py`
-- [ ] T028 [P] [US3] Add integration coverage for non-destructive inventory outputs and excluded-file handling in `tests/integration/test_safe_scan_manifest.py`
+- [X] T026 [P] [US3] Add secret-bearing, skipped-directory, and oversized-file tests in `tests/unit/test_ignore_policy.py`
+- [X] T027 [P] [US3] Add unsupported-file and skip-reason coverage tests in `tests/unit/test_repository_manifest.py`
+- [X] T028 [P] [US3] Add integration coverage for non-destructive inventory outputs and excluded-file handling in `tests/integration/test_safe_scan_manifest.py`
 
 ### Implementation for User Story 3
 
-- [ ] T029 [P] [US3] Extend skip logic for lockfiles, minified assets, archives, binaries, and irrelevant file classes in `src/utils/ignore_policy.py`
-- [ ] T030 [US3] Integrate structured skip reasons and parse-eligibility enforcement into manifest assembly in `src/analyzers/repository_manifest.py`
-- [ ] T031 [US3] Add bounded inventory metadata behavior for large-repository conditions in `src/analyzers/repository_manifest.py` and `src/models/manifest.py`
-- [ ] T032 [US3] Update analyze-path user-facing summary text for skipped and unsupported outcomes in `src/cli.py` and `src/orchestrator.py`
+- [X] T029 [P] [US3] Extend skip logic for lockfiles, minified assets, archives, binaries, and irrelevant file classes in `src/utils/ignore_policy.py`
+- [X] T030 [US3] Integrate structured skip reasons and parse-eligibility enforcement into manifest assembly in `src/analyzers/repository_manifest.py`
+- [X] T031 [US3] Add bounded inventory metadata behavior for large-repository conditions in `src/analyzers/repository_manifest.py` and `src/models/manifest.py`
+- [X] T032 [US3] Update analyze-path user-facing summary text for skipped and unsupported outcomes in `src/cli.py` and `src/orchestrator.py`
 
 **Checkpoint**: All user stories should now be independently functional and the Stage 2 inventory subsystem should be ready for later analyzers
 
@@ -130,10 +130,10 @@ implementation and testing of each story.
 
 **Purpose**: Final validation and cleanup across all Stage 2 inventory behavior
 
-- [ ] T033 [P] Run the full pytest suite for Stage 2 inventory coverage in `tests/unit/` and `tests/integration/`
-- [ ] T034 [P] Validate quickstart inventory behavior and analyze output against `specs/003-repo-inventory/quickstart.md`
-- [ ] T035 Verify deterministic manifest ordering, summary serialization, and artifact placement across `src/analyzers/repository_manifest.py`, `src/utils/artifacts.py`, and `src/orchestrator.py`
-- [ ] T036 [P] Clean up docstrings, typing, and field descriptions in `src/models/manifest.py`, `src/utils/file_classification.py`, `src/utils/ignore_policy.py`, and `src/analyzers/repository_manifest.py`
+- [X] T033 [P] Run the full pytest suite for Stage 2 inventory coverage in `tests/unit/` and `tests/integration/`
+- [X] T034 [P] Validate quickstart inventory behavior and analyze output against `specs/003-repo-inventory/quickstart.md`
+- [X] T035 Verify deterministic manifest ordering, summary serialization, and artifact placement across `src/analyzers/repository_manifest.py`, `src/utils/artifacts.py`, and `src/orchestrator.py`
+- [X] T036 [P] Clean up docstrings, typing, and field descriptions in `src/models/manifest.py`, `src/utils/file_classification.py`, `src/utils/ignore_policy.py`, and `src/analyzers/repository_manifest.py`
 
 ---
 

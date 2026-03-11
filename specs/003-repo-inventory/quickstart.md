@@ -29,6 +29,9 @@ Expected Stage 2 behavior:
 - excluded files remain non-parse-eligible and carry structured skip reasons
 - repeated runs against the same unchanged repository produce stable ordering
   and stable classification results
+- mixed-language fixture inputs under `tests/fixtures/inventory_polyglot_repo/`
+  exercise Python, SQL, YAML, JavaScript, TypeScript, JSON, notebook, shell,
+  skipped, and unsupported cases
 
 ## Confirm Stage 2 scope
 
