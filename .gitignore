@@ -1,0 +1,26 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.pytest_tmp/
+.pytest-run/
+.pytest-cache-run/
+.test-tmp/
+.test-pytest-cache/
+pytest-cache-files-*/
+.ruff_cache/
+dist/
+build/
+*.egg-info/
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+.vscode/
+.idea/
+.env
+.env.*
+.cartography/
+requirement doc
