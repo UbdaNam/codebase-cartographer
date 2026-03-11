@@ -24,7 +24,8 @@ dev = [
 packages = ["src"]
 
 [tool.pytest.ini_options]
-addopts = "-q --basetemp=.pytest_tmp"
+addopts = "-q"
+cache_dir = ".test-pytest-cache"
 testpaths = ["tests"]
 
 [tool.uv]

@@ -21,12 +21,13 @@ Stage 1 exposes stable, human-readable enums for:
 ### Evidence and Citation Contracts
 
 Evidence-aware contracts MUST preserve:
-- source path
+- analysis-root-relative source path
 - optional line start and line end
 - language
 - analysis method
 - confidence
 - optional excerpt or symbol name
+- explicit redaction signaling when excerpt text is withheld
 
 These contracts MUST be reusable by graph nodes, graph edges, analysis
 artifacts, and query-state citations.
@@ -57,6 +58,8 @@ Stage 1 state contracts MUST provide:
 `AnalysisState` supports pipeline execution and partial outcomes.
 `NavigatorState` supports future LangGraph-ready query execution without
 requiring a workflow engine today.
+Contracts MUST support skipped-input summaries, artifact references, and
+tool-history tracking without introducing live workflow logic.
 
 ## Serialization Expectations
 
@@ -65,6 +68,8 @@ requiring a workflow engine today.
 - IDs MUST be deterministic from canonical fields rather than runtime
   randomness
 - Partial and degraded results MUST be representable without invalid payloads
+- Artifact payloads and graph payloads MUST sort nested metadata and record
+  collections predictably so diffs stay readable
 
 ## Stage 1 Non-Goals
 

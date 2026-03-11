@@ -30,10 +30,10 @@ implementation and testing of each story.
 
 **Purpose**: Prepare the Stage 1 modeling file layout and project metadata
 
-- [ ] T001 Create the Stage 1 contract module files in `src/models/enums.py`, `src/models/evidence.py`, `src/models/graph.py`, `src/models/artifacts.py`, `src/models/state.py`, and `src/utils/ids.py`
-- [ ] T002 Confirm `pyproject.toml` includes the Stage 1 dependency and test baseline for Python 3.11+, Pydantic v2, and pytest
-- [ ] T003 [P] Add Stage 1 package exports in `src/models/__init__.py`
-- [ ] T004 [P] Update high-level Stage 1 overview text in `README.md`
+- [x] T001 Create the Stage 1 contract module files in `src/models/enums.py`, `src/models/evidence.py`, `src/models/graph.py`, `src/models/artifacts.py`, `src/models/state.py`, and `src/utils/ids.py`
+- [x] T002 Confirm `pyproject.toml` includes the Stage 1 dependency and test baseline for Python 3.11+, Pydantic v2, and pytest
+- [x] T003 [P] Add Stage 1 package exports in `src/models/__init__.py`
+- [x] T004 [P] Update high-level Stage 1 overview text in `README.md`
 
 ---
 
@@ -43,11 +43,11 @@ implementation and testing of each story.
 
 **CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T005 Define stable string enums for node kinds, edge kinds, support status, analysis method, skip reasons, and confidence bands in `src/models/enums.py`
-- [ ] T006 [P] Implement canonicalization and deterministic ID helpers in `src/utils/ids.py`
-- [ ] T007 [P] Implement reusable evidence and citation base models in `src/models/evidence.py`
-- [ ] T008 Implement shared serialization helpers and artifact metadata contracts in `src/models/artifacts.py`
-- [ ] T009 [P] Add foundational enum and ID tests in `tests/unit/test_enums.py` and `tests/unit/test_ids.py`
+- [x] T005 Define stable string enums for node kinds, edge kinds, support status, analysis method, skip reasons, and confidence bands in `src/models/enums.py`
+- [x] T006 [P] Implement canonicalization and deterministic ID helpers in `src/utils/ids.py`
+- [x] T007 [P] Implement reusable evidence and citation base models in `src/models/evidence.py`
+- [x] T008 Implement shared serialization helpers and artifact metadata contracts in `src/models/artifacts.py`
+- [x] T009 [P] Add foundational enum and ID tests in `tests/unit/test_enums.py` and `tests/unit/test_ids.py`
 
 **Checkpoint**: Foundational contract primitives are ready for story-specific
 modeling work
@@ -67,17 +67,17 @@ values, stable IDs, and deterministic output structure
 
 > **NOTE**: Write these tests FIRST and ensure they FAIL before implementation
 
-- [ ] T010 [P] [US1] Add graph-model validation tests in `tests/unit/test_graph_models.py`
-- [ ] T011 [P] [US1] Add pipeline-state validation tests in `tests/unit/test_state_models.py`
-- [ ] T012 [P] [US1] Add serialization stability tests for graph payloads and analysis artifacts in `tests/integration/test_serialization_contracts.py`
+- [x] T010 [P] [US1] Add graph-model validation tests in `tests/unit/test_graph_models.py`
+- [x] T011 [P] [US1] Add pipeline-state validation tests in `tests/unit/test_state_models.py`
+- [x] T012 [P] [US1] Add serialization stability tests for graph payloads and analysis artifacts in `tests/integration/test_serialization_contracts.py`
 
 ### Implementation for User Story 1
 
-- [ ] T013 [P] [US1] Implement base graph node, module node, dataset node, and transformation node schemas in `src/models/graph.py`
-- [ ] T014 [US1] Implement graph edge schemas and graph container payload models in `src/models/graph.py`
-- [ ] T015 [US1] Implement analysis artifact contracts and deterministic serialization payload models in `src/models/artifacts.py`
-- [ ] T016 [US1] Implement `RunContext` and `AnalysisState` models in `src/models/state.py`
-- [ ] T017 [US1] Export Stage 1 contract families from `src/models/__init__.py`
+- [x] T013 [P] [US1] Implement base graph node, module node, dataset node, and transformation node schemas in `src/models/graph.py`
+- [x] T014 [US1] Implement graph edge schemas and graph container payload models in `src/models/graph.py`
+- [x] T015 [US1] Implement analysis artifact contracts and deterministic serialization payload models in `src/models/artifacts.py`
+- [x] T016 [US1] Implement `RunContext` and `AnalysisState` models in `src/models/state.py`
+- [x] T017 [US1] Export Stage 1 contract families from `src/models/__init__.py`
 
 **Checkpoint**: User Story 1 should be fully functional and independently
 testable as the Stage 1 MVP
@@ -95,16 +95,16 @@ without validation failures or unstable serialization
 
 ### Tests for User Story 2
 
-- [ ] T018 [P] [US2] Add evidence-model tests for optional line numbers and citation behavior in `tests/unit/test_evidence.py`
-- [ ] T019 [P] [US2] Add partial-data and support-status coverage tests in `tests/unit/test_graph_models.py`
-- [ ] T020 [P] [US2] Add regression tests for degraded artifact serialization in `tests/integration/test_serialization_contracts.py`
+- [x] T018 [P] [US2] Add evidence-model tests for optional line numbers and citation behavior in `tests/unit/test_evidence.py`
+- [x] T019 [P] [US2] Add partial-data and support-status coverage tests in `tests/unit/test_graph_models.py`
+- [x] T020 [P] [US2] Add regression tests for degraded artifact serialization in `tests/integration/test_serialization_contracts.py`
 
 ### Implementation for User Story 2
 
-- [ ] T021 [P] [US2] Implement evidence and citation detail models in `src/models/evidence.py`
-- [ ] T022 [US2] Add support-status, confidence, and skip-reason fields to graph and artifact contracts in `src/models/graph.py` and `src/models/artifacts.py`
-- [ ] T023 [US2] Add partial-result and skipped-summary support to `AnalysisState` in `src/models/state.py`
-- [ ] T024 [US2] Document evidence and degraded-output contract expectations in `specs/002-define-typed-contracts/contracts/model-contracts.md`
+- [x] T021 [P] [US2] Implement evidence and citation detail models in `src/models/evidence.py`
+- [x] T022 [US2] Add support-status, confidence, and skip-reason fields to graph and artifact contracts in `src/models/graph.py` and `src/models/artifacts.py`
+- [x] T023 [US2] Add partial-result and skipped-summary support to `AnalysisState` in `src/models/state.py`
+- [x] T024 [US2] Document evidence and degraded-output contract expectations in `specs/002-define-typed-contracts/contracts/model-contracts.md`
 
 **Checkpoint**: User Story 2 should be independently testable with evidence,
 partial-result, and degraded-output scenarios
@@ -122,14 +122,14 @@ without requiring LangGraph workflow execution
 
 ### Tests for User Story 3
 
-- [ ] T025 [P] [US3] Add Navigator-state validation tests in `tests/unit/test_state_models.py`
-- [ ] T026 [P] [US3] Add contract-compatibility tests covering shared agent-facing state defaults in `tests/integration/test_serialization_contracts.py`
+- [x] T025 [P] [US3] Add Navigator-state validation tests in `tests/unit/test_state_models.py`
+- [x] T026 [P] [US3] Add contract-compatibility tests covering shared agent-facing state defaults in `tests/integration/test_serialization_contracts.py`
 
 ### Implementation for User Story 3
 
-- [ ] T027 [P] [US3] Implement `NavigatorState` and related query-response fields in `src/models/state.py`
-- [ ] T028 [US3] Add shared agent-facing metadata and future workflow-facing fields to `RunContext` and `AnalysisState` in `src/models/state.py`
-- [ ] T029 [US3] Update Stage 1 quickstart guidance for query-state and contract validation in `specs/002-define-typed-contracts/quickstart.md`
+- [x] T027 [P] [US3] Implement `NavigatorState` and related query-response fields in `src/models/state.py`
+- [x] T028 [US3] Add shared agent-facing metadata and future workflow-facing fields to `RunContext` and `AnalysisState` in `src/models/state.py`
+- [x] T029 [US3] Update Stage 1 quickstart guidance for query-state and contract validation in `specs/002-define-typed-contracts/quickstart.md`
 
 **Checkpoint**: All user stories should now be independently functional and the
 Stage 1 contract layer should be ready for later stages
@@ -140,10 +140,10 @@ Stage 1 contract layer should be ready for later stages
 
 **Purpose**: Final validation and cleanup across all Stage 1 contracts
 
-- [ ] T030 [P] Run the full pytest suite for Stage 1 contract coverage in `tests/unit/` and `tests/integration/`
-- [ ] T031 [P] Validate deterministic JSON serialization examples against `specs/002-define-typed-contracts/quickstart.md`
-- [ ] T032 Verify stable ID behavior and contract exports across `src/models/` and `src/utils/ids.py`
-- [ ] T033 [P] Clean up docstrings, typing, and field descriptions in `src/models/enums.py`, `src/models/evidence.py`, `src/models/graph.py`, `src/models/artifacts.py`, and `src/models/state.py`
+- [x] T030 [P] Run the full pytest suite for Stage 1 contract coverage in `tests/unit/` and `tests/integration/`
+- [x] T031 [P] Validate deterministic JSON serialization examples against `specs/002-define-typed-contracts/quickstart.md`
+- [x] T032 Verify stable ID behavior and contract exports across `src/models/` and `src/utils/ids.py`
+- [x] T033 [P] Clean up docstrings, typing, and field descriptions in `src/models/enums.py`, `src/models/evidence.py`, `src/models/graph.py`, `src/models/artifacts.py`, and `src/models/state.py`
 
 ---
 

@@ -41,3 +41,14 @@ uv run python -m src.cli query "What is this repository?"
 
 The `analyze` command performs manifest-only Stage 0 analysis and writes
 deterministic metadata under `.cartography/`.
+
+## Stage 1 Typed Contracts
+
+Stage 1 adds:
+- stable enums for graph, support-status, method, confidence, and skip-reason semantics
+- reusable evidence and citation models
+- deterministic graph and artifact payload contracts
+- shared run, pipeline, and future Navigator state models
+
+Stage 1 remains contract-only and does not introduce analyzers, graph
+algorithms, LangGraph workflows, or LLM execution.

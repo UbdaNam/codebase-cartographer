@@ -8,7 +8,7 @@
 ## Expected Stage 1 deliverables
 
 - shared typed models under `src/models/`
-- small deterministic ID helper support if needed
+- deterministic ID helpers under `src/utils/ids.py`
 - pytest coverage for schema validation, enum serialization, stable IDs, and
   deterministic graph payload serialization
 
@@ -22,8 +22,10 @@ Expected Stage 1 behavior:
 - graph, artifact, evidence, and state models validate cleanly
 - enum values serialize to stable human-readable JSON values
 - deterministic IDs reproduce the same values from the same canonical inputs
+- evidence and citation paths remain analysis-root-relative
 - partial and incomplete data validate where the contracts are designed to
   allow graceful degradation
+- future Navigator query state validates without requiring a workflow engine
 
 ## Confirm Stage 1 scope
 

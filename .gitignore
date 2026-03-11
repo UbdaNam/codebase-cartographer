@@ -5,6 +5,11 @@ __pycache__/
 *.pyo
 .pytest_cache/
 .pytest_tmp/
+.pytest-run/
+.pytest-cache-run/
+.test-tmp/
+.test-pytest-cache/
+pytest-cache-files-*/
 .ruff_cache/
 dist/
 build/
