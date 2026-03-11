@@ -26,7 +26,9 @@ def test_inventory_artifacts_include_manifest_and_summary(tmp_path: Path) -> Non
     run_dir = Path(settings.resolved_artifact_dir()) / "runs" / summary.run_id
     manifest_path = run_dir / "manifest.json"
     inventory_summary_path = run_dir / "inventory_summary.json"
+    structural_summary_path = run_dir / "structural_summary.json"
 
     assert manifest_path.exists()
     assert inventory_summary_path.exists()
+    assert structural_summary_path.exists()
     assert str(inventory_summary_path).replace("\\", "/") == summary.inventory_summary_path
