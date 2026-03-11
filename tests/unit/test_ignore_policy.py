@@ -45,3 +45,28 @@ def test_analysis_root_escape_is_rejected(tmp_path: Path) -> None:
     decision = should_skip_path(outside, tmp_path, settings)
 
     assert decision.reason_code == SkipReason.ANALYSIS_ROOT_ESCAPE
+
+
+def test_lockfiles_and_minified_assets_are_skipped(tmp_path: Path) -> None:
+    lockfile = tmp_path / "uv.lock"
+    lockfile.write_text("version = 1", encoding="utf-8")
+    minified = tmp_path / "bundle.min.js"
+    minified.write_text("var x=1;", encoding="utf-8")
+    settings = AppSettings(repo_root=tmp_path)
+
+    lockfile_decision = should_skip_path(lockfile, tmp_path, settings)
+    minified_decision = should_skip_path(minified, tmp_path, settings)
+
+    assert lockfile_decision.reason_code == SkipReason.IGNORED_FILENAME
+    assert minified_decision.reason_code == SkipReason.MINIFIED_ASSET
+
+
+def test_binary_like_assets_are_skipped(tmp_path: Path) -> None:
+    asset = tmp_path / "assets" / "logo.png"
+    asset.parent.mkdir(parents=True)
+    asset.write_text("fake-binary", encoding="utf-8")
+    settings = AppSettings(repo_root=tmp_path)
+
+    decision = should_skip_path(asset, tmp_path, settings)
+
+    assert decision.reason_code == SkipReason.BINARY_OR_ARCHIVE
