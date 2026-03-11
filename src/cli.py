@@ -12,7 +12,7 @@ app = typer.Typer(help="Brownfield Cartographer CLI.")
 
 @app.command()
 def analyze(repo: str = typer.Option(".", "--repo")) -> None:
-    """Initialize a Stage 3 repository preparation and structural analysis run."""
+    """Run Stage 4 analysis through Surveyor."""
 
     settings = AppSettings()
     orchestrator = CartographyOrchestrator(settings)
@@ -22,7 +22,7 @@ def analyze(repo: str = typer.Option(".", "--repo")) -> None:
 
 @app.command()
 def query(question: str) -> None:
-    """Return the Stage 3 query stub response."""
+    """Return the Stage 4 query stub response."""
 
     settings = AppSettings()
     orchestrator = CartographyOrchestrator(settings)

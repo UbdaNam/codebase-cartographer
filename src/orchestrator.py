@@ -1,10 +1,11 @@
-"""Repository preparation, inventory, and structural analysis orchestration."""
+"""Repository preparation, inventory, structural analysis, and Surveyor orchestration."""
 
 from __future__ import annotations
 
 import os
 from pathlib import Path
 
+from src.agents.surveyor import SurveyorAgent
 from src.analyzers.repository_manifest import build_repository_manifest
 from src.analyzers.tree_sitter_analyzer import TreeSitterAnalyzer
 from src.config import AppSettings
@@ -15,13 +16,14 @@ from src.utils.artifacts import (
     finalize_run,
     initialize_artifact_dirs,
     write_inventory_artifacts,
+    write_surveyor_artifacts,
     write_structural_artifacts,
 )
 from src.utils.logging import create_logger, log_event
 
 
 class CartographyOrchestrator:
-    """Coordinate Stage 3 analyze and placeholder query flows."""
+    """Coordinate analyze and placeholder query flows."""
 
     def __init__(self, settings: AppSettings):
         self.settings = settings
@@ -62,27 +64,45 @@ class CartographyOrchestrator:
             ast_index,
             self.settings,
         )
+        module_graph, survey_summary = SurveyorAgent(self.settings).analyze(
+            prepared_repository,
+            manifest,
+            structural_index,
+            run_id=context.run_id,
+            artifact_dir=str(self.settings.resolved_artifact_dir()),
+        )
+        module_graph_path, survey_summary_path = write_surveyor_artifacts(
+            run_dir,
+            module_graph,
+            survey_summary,
+            self.settings,
+        )
 
         summary = RunSummary(
             run_id=context.run_id,
             status=RunStatus.COMPLETED,
-            message="Stage 3 repository preparation and structural analysis completed with deterministic artifacts.",
+            message="Stage 4 Surveyor analysis completed with deterministic architectural artifacts.",
             prepared_repo_path=prepared_repository.local_repo_path,
             manifest_path=str(manifest_path),
             inventory_summary_path=str(summary_path),
             structural_summary_path=str(structural_summary_path),
+            module_graph_path=str(module_graph_path),
+            survey_summary_path=str(survey_summary_path),
             artifact_paths=[
                 str(manifest_path),
                 str(summary_path),
                 str(structural_index_path),
                 str(ast_index_path),
                 str(structural_summary_path),
+                str(module_graph_path),
+                str(survey_summary_path),
             ],
             warnings=[
                 f"skipped:{manifest.summary.skipped_count}",
                 f"unsupported:{manifest.summary.unsupported_count}",
                 f"partial:{manifest.summary.partial_count}",
                 f"structural_partial:{structural_index.summary.partial_files}",
+                *survey_summary.partial_result_flags,
             ],
             inventory_stats={
                 "total_candidates": manifest.summary.total_candidates,
@@ -103,6 +123,7 @@ class CartographyOrchestrator:
                 "unsupported_files": structural_index.summary.unsupported_files,
                 "record_count": structural_index.summary.record_count,
             },
+            survey_stats={key: int(value) for key, value in survey_summary.stats.items() if isinstance(value, int)},
         )
         context.generated_artifact_paths = summary.artifact_paths
         finalize_run(context, run_dir, summary, status=RunStatus.COMPLETED)
@@ -114,18 +135,23 @@ class CartographyOrchestrator:
             summary_path=str(summary_path),
             structural_index_path=str(structural_index_path),
             ast_index_path=str(ast_index_path),
+            module_graph_path=str(module_graph_path),
+            survey_summary_path=str(survey_summary_path),
             supported_count=manifest.summary.supported_count,
             partial_count=manifest.summary.partial_count,
             skipped_count=manifest.summary.skipped_count,
             unsupported_count=manifest.summary.unsupported_count,
             parse_eligible_count=manifest.summary.parse_eligible_count,
             structural_record_count=structural_index.summary.record_count,
+            module_count=survey_summary.module_count,
+            import_edge_count=survey_summary.import_edge_count,
+            circular_dependency_group_count=survey_summary.circular_dependency_group_count,
         )
         return summary
 
     def query(self, question: str) -> str:
         return (
-            "Query support is not implemented in Stage 3. "
+            "Query support is not implemented in Stage 4. "
             f"Received question: {question}"
         )
 

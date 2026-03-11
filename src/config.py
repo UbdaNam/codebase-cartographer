@@ -50,6 +50,8 @@ class AppSettings(BaseSettings):
     )
     concurrency_limit: int = 4
     cache_enabled: bool = True
+    git_velocity_lookback_days: int = 30
+    high_velocity_core_change_share: float = 0.8
     cache_dir_name: str = DEFAULT_CACHE_DIR
     runs_dir_name: str = DEFAULT_RUNS_DIR
     logs_dir_name: str = DEFAULT_LOGS_DIR
@@ -66,11 +68,23 @@ class AppSettings(BaseSettings):
         path = Path(value)
         return path if path.is_absolute() else path
 
-    @field_validator("max_file_size_bytes", "max_total_bytes_scanned", "concurrency_limit")
+    @field_validator(
+        "max_file_size_bytes",
+        "max_total_bytes_scanned",
+        "concurrency_limit",
+        "git_velocity_lookback_days",
+    )
     @classmethod
     def _ensure_positive(cls, value: int) -> int:
         if value <= 0:
             raise ValueError("must be a positive integer")
+        return value
+
+    @field_validator("high_velocity_core_change_share")
+    @classmethod
+    def _ensure_share(cls, value: float) -> float:
+        if value <= 0 or value > 1:
+            raise ValueError("must be greater than 0 and less than or equal to 1")
         return value
 
     def resolved_artifact_dir(self) -> Path:
@@ -89,3 +103,13 @@ class AppSettings(BaseSettings):
         """Return the structural summary output path for a run directory."""
 
         return run_dir / "structural_summary.json"
+
+    def module_graph_path(self, run_dir: Path) -> Path:
+        """Return the Surveyor module graph output path for a run directory."""
+
+        return run_dir / "module_graph.json"
+
+    def survey_summary_path(self, run_dir: Path) -> Path:
+        """Return the Surveyor summary output path for a run directory."""
+
+        return run_dir / "survey_summary.json"

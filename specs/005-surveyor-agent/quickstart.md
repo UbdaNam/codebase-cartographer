@@ -2,11 +2,11 @@
 
 ## Scenario 1: Run Surveyor on a repository with structural artifacts and git history
 
-1. Run the analyze workflow against a repository that already passes Stage 2
-   discovery and Stage 3 structural extraction.
+1. Run `python -m src.cli analyze --repo <path-or-url>` against a repository
+   that already passes Stage 2 discovery and Stage 3 structural extraction.
 2. Confirm the run produces:
-   - a deterministic module graph artifact
-   - a deterministic survey summary artifact
+   - `module_graph.json`
+   - `survey_summary.json`
    - module count, import edge count, top hubs, circular dependency count, and
      high-velocity summary in the CLI output
 3. Re-run the same analysis against the unchanged repository and confirm the

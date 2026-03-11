@@ -8,6 +8,7 @@ from pathlib import Path
 from uuid import uuid4
 
 from src.config import AppSettings
+from src.models.graph import GraphPayload, SurveySummaryPayload
 from src.models.manifest import RepositoryManifest
 from src.models.run_metadata import RunContext, RunStatus, RunSummary
 from src.models.structural import AstIndexPayload, StructuralIndexPayload, StructuralSummary
@@ -101,3 +102,18 @@ def write_structural_artifacts(
     write_json(ast_index_path, ast_index)
     write_json(structural_summary_path, structural_index.summary)
     return structural_index_path, ast_index_path, structural_summary_path
+
+
+def write_surveyor_artifacts(
+    run_dir: Path,
+    module_graph: GraphPayload,
+    survey_summary: SurveySummaryPayload,
+    settings: AppSettings,
+) -> tuple[Path, Path]:
+    """Persist Stage 4 Surveyor artifacts and summary."""
+
+    module_graph_path = settings.module_graph_path(run_dir)
+    survey_summary_path = settings.survey_summary_path(run_dir)
+    write_json(module_graph_path, module_graph)
+    write_json(survey_summary_path, survey_summary)
+    return module_graph_path, survey_summary_path

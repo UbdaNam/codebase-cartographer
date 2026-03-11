@@ -29,10 +29,10 @@ implementation and testing of each story.
 
 **Purpose**: Establish Stage 4 files, dependencies, and test scaffolding
 
-- [ ] T001 Create the Stage 4 Surveyor module skeleton in `src/agents/surveyor.py`
-- [ ] T002 [P] Create the graph-analysis helper module skeleton in `src/graph/survey.py`
-- [ ] T003 [P] Create Stage 4 test file skeletons in `tests/unit/test_surveyor_agent.py`, `tests/unit/test_git_velocity.py`, `tests/unit/test_survey_graph.py`, `tests/integration/test_surveyor_pipeline.py`, and `tests/contract/test_surveyor_artifacts.py`
-- [ ] T004 [P] Update dependency and project metadata for Stage 4 requirements in `pyproject.toml`
+- [X] T001 Create the Stage 4 Surveyor module skeleton in `src/agents/surveyor.py`
+- [X] T002 [P] Create the graph-analysis helper module skeleton in `src/graph/survey.py`
+- [X] T003 [P] Create Stage 4 test file skeletons in `tests/unit/test_surveyor_agent.py`, `tests/unit/test_git_velocity.py`, `tests/unit/test_survey_graph.py`, `tests/integration/test_surveyor_pipeline.py`, and `tests/contract/test_surveyor_artifacts.py`
+- [X] T004 [P] Update dependency and project metadata for Stage 4 requirements in `pyproject.toml`
 
 ---
 
@@ -43,13 +43,13 @@ story work can begin
 
 **CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T005 Extend Stage 1 graph and artifact contracts for Surveyor outputs in `src/models/graph.py`
-- [ ] T006 [P] Extend run and analysis state to register Surveyor artifacts, stats, and partial-result markers in `src/models/state.py`
-- [ ] T007 [P] Add deterministic Surveyor artifact helpers for module graph and survey summary outputs in `src/utils/artifacts.py`
-- [ ] T008 Create normalized module-identity and dependency-key helpers in `src/utils/ids.py`
-- [ ] T009 Define shared graph-construction and velocity utility interfaces in `src/graph/survey.py`
-- [ ] T010 [P] Add foundational contract coverage for Surveyor graph payloads and state registration in `tests/contract/test_surveyor_artifacts.py`
-- [ ] T011 [P] Add foundational unit coverage for module normalization and stable key generation in `tests/unit/test_survey_graph.py`
+- [X] T005 Extend Stage 1 graph and artifact contracts for Surveyor outputs in `src/models/graph.py`
+- [X] T006 [P] Extend run and analysis state to register Surveyor artifacts, stats, and partial-result markers in `src/models/state.py`
+- [X] T007 [P] Add deterministic Surveyor artifact helpers for module graph and survey summary outputs in `src/utils/artifacts.py`
+- [X] T008 Create normalized module-identity and dependency-key helpers in `src/utils/ids.py`
+- [X] T009 Define shared graph-construction and velocity utility interfaces in `src/graph/survey.py`
+- [X] T010 [P] Add foundational contract coverage for Surveyor graph payloads and state registration in `tests/contract/test_surveyor_artifacts.py`
+- [X] T011 [P] Add foundational unit coverage for module normalization and stable key generation in `tests/unit/test_survey_graph.py`
 
 **Checkpoint**: Surveyor foundations are ready; user story work can now begin
 
@@ -66,17 +66,17 @@ dependency groups, and deterministic `.cartography` artifacts.
 
 ### Tests for User Story 1
 
-- [ ] T012 [P] [US1] Add unit tests for mapping structural results into module records in `tests/unit/test_surveyor_agent.py`
-- [ ] T013 [P] [US1] Add unit tests for import-graph construction, PageRank ordering, and SCC detection in `tests/unit/test_survey_graph.py`
-- [ ] T014 [P] [US1] Add integration coverage for deterministic Surveyor artifact generation in `tests/integration/test_surveyor_pipeline.py`
+- [X] T012 [P] [US1] Add unit tests for mapping structural results into module records in `tests/unit/test_surveyor_agent.py`
+- [X] T013 [P] [US1] Add unit tests for import-graph construction, PageRank ordering, and SCC detection in `tests/unit/test_survey_graph.py`
+- [X] T014 [P] [US1] Add integration coverage for deterministic Surveyor artifact generation in `tests/integration/test_surveyor_pipeline.py`
 
 ### Implementation for User Story 1
 
-- [ ] T015 [P] [US1] Implement structural-to-module mapping and evidence attachment in `src/agents/surveyor.py`
-- [ ] T016 [P] [US1] Implement directed import-graph construction from module dependencies in `src/graph/survey.py`
-- [ ] T017 [US1] Implement PageRank, strongly connected component, and simple degree analytics in `src/graph/survey.py`
-- [ ] T018 [US1] Implement deterministic module graph and survey summary serialization in `src/agents/surveyor.py`
-- [ ] T019 [US1] Wire Surveyor artifact registration into analysis state in `src/models/state.py`
+- [X] T015 [P] [US1] Implement structural-to-module mapping and evidence attachment in `src/agents/surveyor.py`
+- [X] T016 [P] [US1] Implement directed import-graph construction from module dependencies in `src/graph/survey.py`
+- [X] T017 [US1] Implement PageRank, strongly connected component, and simple degree analytics in `src/graph/survey.py`
+- [X] T018 [US1] Implement deterministic module graph and survey summary serialization in `src/agents/surveyor.py`
+- [X] T019 [US1] Wire Surveyor artifact registration into analysis state in `src/models/state.py`
 
 **Checkpoint**: User Story 1 should now produce a deterministic architectural
 module map and related artifacts independently
@@ -94,17 +94,17 @@ membership, and heuristic dead code candidates.
 
 ### Tests for User Story 2
 
-- [ ] T020 [P] [US2] Add unit tests for git velocity extraction and bounded lookback behavior in `tests/unit/test_git_velocity.py`
-- [ ] T021 [P] [US2] Add unit tests for high-velocity core calculation and dead code heuristic scoring in `tests/unit/test_surveyor_agent.py`
-- [ ] T022 [P] [US2] Add integration coverage for Surveyor change-signal summaries in `tests/integration/test_surveyor_pipeline.py`
+- [X] T020 [P] [US2] Add unit tests for git velocity extraction and bounded lookback behavior in `tests/unit/test_git_velocity.py`
+- [X] T021 [P] [US2] Add unit tests for high-velocity core calculation and dead code heuristic scoring in `tests/unit/test_surveyor_agent.py`
+- [X] T022 [P] [US2] Add integration coverage for Surveyor change-signal summaries in `tests/integration/test_surveyor_pipeline.py`
 
 ### Implementation for User Story 2
 
-- [ ] T023 [P] [US2] Implement repository-scoped git velocity extraction and graceful-missing-history handling in `src/agents/surveyor.py`
-- [ ] T024 [P] [US2] Implement deterministic high-velocity core calculation in `src/graph/survey.py`
-- [ ] T025 [US2] Attach velocity metrics and high-velocity-core membership to module records in `src/agents/surveyor.py`
-- [ ] T026 [US2] Implement conservative dead code candidate heuristics and confidence labeling in `src/agents/surveyor.py`
-- [ ] T027 [US2] Extend survey summary serialization for velocity and dead code signals in `src/agents/surveyor.py`
+- [X] T023 [P] [US2] Implement repository-scoped git velocity extraction and graceful-missing-history handling in `src/agents/surveyor.py`
+- [X] T024 [P] [US2] Implement deterministic high-velocity core calculation in `src/graph/survey.py`
+- [X] T025 [US2] Attach velocity metrics and high-velocity-core membership to module records in `src/agents/surveyor.py`
+- [X] T026 [US2] Implement conservative dead code candidate heuristics and confidence labeling in `src/agents/surveyor.py`
+- [X] T027 [US2] Extend survey summary serialization for velocity and dead code signals in `src/agents/surveyor.py`
 
 **Checkpoint**: User Stories 1 and 2 should now produce architectural graph
 outputs plus change and risk signals independently
@@ -122,16 +122,16 @@ artifacts plus structured warnings without run failure.
 
 ### Tests for User Story 3
 
-- [ ] T028 [P] [US3] Add unit tests for unresolved-import and partial-record handling in `tests/unit/test_surveyor_agent.py`
-- [ ] T029 [P] [US3] Add integration tests for missing git metadata and partial Surveyor runs in `tests/integration/test_surveyor_pipeline.py`
-- [ ] T030 [P] [US3] Add contract tests for warning and partial-result serialization in `tests/contract/test_surveyor_artifacts.py`
+- [X] T028 [P] [US3] Add unit tests for unresolved-import and partial-record handling in `tests/unit/test_surveyor_agent.py`
+- [X] T029 [P] [US3] Add integration tests for missing git metadata and partial Surveyor runs in `tests/integration/test_surveyor_pipeline.py`
+- [X] T030 [P] [US3] Add contract tests for warning and partial-result serialization in `tests/contract/test_surveyor_artifacts.py`
 
 ### Implementation for User Story 3
 
-- [ ] T031 [P] [US3] Implement unresolved dependency preservation and warning generation in `src/agents/surveyor.py`
-- [ ] T032 [P] [US3] Implement partial-result summary and warning aggregation in `src/graph/survey.py`
-- [ ] T033 [US3] Integrate graceful-degradation handling into Surveyor artifact emission in `src/agents/surveyor.py`
-- [ ] T034 [US3] Update state registration for partial Surveyor completion and warning summaries in `src/models/state.py`
+- [X] T031 [P] [US3] Implement unresolved dependency preservation and warning generation in `src/agents/surveyor.py`
+- [X] T032 [P] [US3] Implement partial-result summary and warning aggregation in `src/graph/survey.py`
+- [X] T033 [US3] Integrate graceful-degradation handling into Surveyor artifact emission in `src/agents/surveyor.py`
+- [X] T034 [US3] Update state registration for partial Surveyor completion and warning summaries in `src/models/state.py`
 
 **Checkpoint**: All three user stories should now work independently, with
 partial-result behavior preserved for messy brownfield inputs
@@ -143,12 +143,12 @@ partial-result behavior preserved for messy brownfield inputs
 **Purpose**: Complete end-to-end integration, CLI exposure, and deterministic
 validation across the whole stage
 
-- [ ] T035 [P] Update orchestrator sequencing so Surveyor runs after structural extraction in `src/orchestrator.py`
-- [ ] T036 [P] Update CLI analyze reporting for module count, import edge count, hub summary, circular dependency count, and high-velocity summary in `src/cli.py`
-- [ ] T037 [P] Add or refresh Surveyor fixture repositories and expected outputs in `tests/fixtures/`
-- [ ] T038 Run end-to-end Surveyor integration validation and refine deterministic ordering assertions in `tests/integration/test_surveyor_pipeline.py`
-- [ ] T039 [P] Update Stage 4 documentation and usage notes in `README.md` and `specs/005-surveyor-agent/quickstart.md`
-- [ ] T040 Validate `.cartography` output placement, deterministic serialization, and non-destructive behavior across Stage 4 artifacts in `tests/contract/test_surveyor_artifacts.py`
+- [X] T035 [P] Update orchestrator sequencing so Surveyor runs after structural extraction in `src/orchestrator.py`
+- [X] T036 [P] Update CLI analyze reporting for module count, import edge count, hub summary, circular dependency count, and high-velocity summary in `src/cli.py`
+- [X] T037 [P] Add or refresh Surveyor fixture repositories and expected outputs in `tests/fixtures/`
+- [X] T038 Run end-to-end Surveyor integration validation and refine deterministic ordering assertions in `tests/integration/test_surveyor_pipeline.py`
+- [X] T039 [P] Update Stage 4 documentation and usage notes in `README.md` and `specs/005-surveyor-agent/quickstart.md`
+- [X] T040 Validate `.cartography` output placement, deterministic serialization, and non-destructive behavior across Stage 4 artifacts in `tests/contract/test_surveyor_artifacts.py`
 
 ---
 

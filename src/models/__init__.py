@@ -11,7 +11,19 @@ from src.models.enums import (
     SupportStatus,
 )
 from src.models.evidence import Citation, EvidenceCollection, EvidenceRecord
-from src.models.graph import DatasetNode, GraphEdge, GraphPayload, GraphNodeBase, ModuleNode, TransformationNode
+from src.models.graph import (
+    DatasetNode,
+    DeadCodeCandidate,
+    GraphEdge,
+    GraphPayload,
+    GraphNodeBase,
+    ModuleNode,
+    SurveyCycle,
+    SurveyHub,
+    SurveySummaryPayload,
+    TransformationNode,
+    VelocityRecord,
+)
 from src.models.manifest import ManifestRecord, ManifestSummary, RepositoryManifest, ScanAction, ScanPolicyDecision
 from src.models.repository_input import (
     PreparedRepository,
@@ -43,6 +55,7 @@ __all__ = [
     "Citation",
     "ConfidenceBand",
     "DatasetNode",
+    "DeadCodeCandidate",
     "EdgeKind",
     "EvidenceCollection",
     "EvidenceRecord",
@@ -77,6 +90,10 @@ __all__ = [
     "StructuralSummary",
     "StructuralSymbolKind",
     "SupportStatus",
+    "SurveyCycle",
+    "SurveyHub",
+    "SurveySummaryPayload",
     "TransformationNode",
     "to_canonical_json",
+    "VelocityRecord",
 ]

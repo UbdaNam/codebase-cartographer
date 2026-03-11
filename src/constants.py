@@ -30,6 +30,8 @@ DEFAULT_IGNORE_DIRS = {
     ".tox",
     ".nox",
     ".cache",
+    "specs",
+    "tests",
 }
 
 DEFAULT_IGNORE_FILE_NAMES = {
@@ -48,6 +50,7 @@ DEFAULT_IGNORE_FILE_NAMES = {
 DEFAULT_IGNORE_FILE_PATTERNS = (
     ".python-version",
     ".tool-versions",
+    ".*"
 )
 
 DEFAULT_SECRET_FILE_PATTERNS = (
