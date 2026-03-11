@@ -3,6 +3,8 @@
 Auto-generated from all feature plans. Last updated: 2026-03-10
 
 ## Active Technologies
+- Python 3.11+ + Pydantic v2, pytest (002-define-typed-contracts)
+- Project-controlled filesystem artifacts under `.cartography/` (002-define-typed-contracts)
 
 - Python 3.11+ + uv, Typer, Pydantic, pytest (001-bootstrap-cartographer-foundation)
 
@@ -31,6 +33,7 @@ cd src; pytest; ruff check .
 Python 3.11+: Follow standard conventions
 
 ## Recent Changes
+- 002-define-typed-contracts: Added Python 3.11+ + Pydantic v2, pytest
 
 - 001-bootstrap-cartographer-foundation: Added Python 3.11+ + uv, Typer, Pydantic, pytest
 
