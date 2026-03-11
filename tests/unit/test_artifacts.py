@@ -25,6 +25,8 @@ def test_run_metadata_and_summary_are_written(tmp_path: Path) -> None:
         status=RunStatus.COMPLETED,
         message="done",
         manifest_path=str(run_dir / "manifest.json"),
+        inventory_summary_path=str(run_dir / "inventory_summary.json"),
+        inventory_stats={"supported_count": 1},
     )
 
     finalize_run(context, run_dir, summary)

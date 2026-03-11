@@ -51,20 +51,25 @@ def build_repository_manifest(settings: AppSettings) -> RepositoryManifest:
                     }
                 )
 
-            language, support_status, source = classify_path(path, settings)
+            language, support_status, source, is_parse_eligible, notes = classify_path(path, settings)
             if decision.action == ScanAction.SKIP:
                 support_status = SupportStatus.SKIPPED
-            elif support_status == SupportStatus.SUPPORTED:
+                is_parse_eligible = False
+                notes = [*notes, f"skipped:{decision.reason_code.value}"]
+            elif is_parse_eligible:
                 bytes_scanned += size
 
             record = ManifestRecord(
                 relative_path=str(path.relative_to(repo_root)).replace("\\", "/"),
                 size_bytes=size,
                 modified_time=datetime.fromtimestamp(path.stat().st_mtime, UTC),
+                extension=path.suffix.lower() or "<none>",
                 language=language,
                 support_status=support_status,
                 skip_reason=decision.reason_code if decision.action == ScanAction.SKIP else None,
+                is_parse_eligible=is_parse_eligible,
                 classification_source=source,
+                notes=notes,
             )
             records.append(record)
 
@@ -78,6 +83,8 @@ def build_repository_manifest(settings: AppSettings) -> RepositoryManifest:
             summary.unsupported_count += 1
         elif record.support_status == SupportStatus.SKIPPED:
             summary.skipped_count += 1
+        if record.is_parse_eligible:
+            summary.parse_eligible_count += 1
     summary.bytes_scanned = bytes_scanned
     return RepositoryManifest(records=records, summary=summary)
 

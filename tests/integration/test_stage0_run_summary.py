@@ -2,18 +2,21 @@ import json
 from pathlib import Path
 
 from src.config import AppSettings
-from src.orchestrator import Stage0Orchestrator
+from src.orchestrator import CartographyOrchestrator
 
 
-def test_stage0_run_writes_summary_and_manifest(tmp_path: Path) -> None:
+def test_stage2_run_writes_summary_manifest_and_inventory_summary(tmp_path: Path) -> None:
     (tmp_path / "app.py").write_text("print('ok')", encoding="utf-8")
     settings = AppSettings(repo_root=tmp_path)
 
-    summary = Stage0Orchestrator(settings).analyze(tmp_path)
+    summary = CartographyOrchestrator(settings).analyze(tmp_path)
 
     summary_path = Path(settings.resolved_artifact_dir()) / "runs" / summary.run_id / "run_summary.json"
     manifest_path = Path(settings.resolved_artifact_dir()) / "runs" / summary.run_id / "manifest.json"
+    inventory_summary_path = Path(settings.resolved_artifact_dir()) / "runs" / summary.run_id / "inventory_summary.json"
 
     assert summary_path.exists()
     assert manifest_path.exists()
+    assert inventory_summary_path.exists()
     assert json.loads(summary_path.read_text(encoding="utf-8"))["status"] == "completed"
+    assert summary.inventory_stats["supported_count"] == 1

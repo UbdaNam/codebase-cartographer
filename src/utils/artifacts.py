@@ -8,6 +8,7 @@ from pathlib import Path
 from uuid import uuid4
 
 from src.config import AppSettings
+from src.models.manifest import ManifestSummary, RepositoryManifest
 from src.models.run_metadata import RunContext, RunStatus, RunSummary
 
 
@@ -67,3 +68,17 @@ def finalize_run(
     write_json(run_dir / "run_metadata.json", context)
     write_json(Path(context.summary_path), summary)
     return context
+
+
+def write_inventory_artifacts(
+    run_dir: Path,
+    manifest: RepositoryManifest,
+    settings: AppSettings,
+) -> tuple[Path, Path]:
+    """Persist the Stage 2 inventory manifest and summary artifacts."""
+
+    manifest_path = run_dir / "manifest.json"
+    summary_path = settings.inventory_summary_path(run_dir)
+    write_json(manifest_path, manifest)
+    write_json(summary_path, manifest.summary)
+    return manifest_path, summary_path

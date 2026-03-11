@@ -10,6 +10,9 @@ from src.constants import MINIFIED_SUFFIXES
 from src.models.manifest import ScanAction, ScanPolicyDecision, SkipReason
 
 
+LOCKFILE_SUFFIXES = (".lock",)
+
+
 def _is_within_root(path: Path, repo_root: Path) -> bool:
     try:
         path.resolve().relative_to(repo_root.resolve())
@@ -51,6 +54,14 @@ def should_skip_path(path: Path, repo_root: Path, settings: AppSettings) -> Scan
             matched_rule=path.name,
         )
 
+    if any(fnmatch(path.name, pattern) for pattern in settings.ignore_file_patterns):
+        return ScanPolicyDecision(
+            path=relative_label,
+            action=ScanAction.SKIP,
+            reason_code=SkipReason.IGNORED_FILENAME,
+            matched_rule="ignore_file_patterns",
+        )
+
     if any(fnmatch(path.name, pattern) for pattern in settings.secret_sensitive_patterns):
         return ScanPolicyDecision(
             path=relative_label,
@@ -58,6 +69,14 @@ def should_skip_path(path: Path, repo_root: Path, settings: AppSettings) -> Scan
             reason_code=SkipReason.SECRET_SENSITIVE,
             matched_rule="secret_sensitive_patterns",
             is_secret_sensitive=True,
+        )
+
+    if path.suffix.lower() in LOCKFILE_SUFFIXES:
+        return ScanPolicyDecision(
+            path=relative_label,
+            action=ScanAction.SKIP,
+            reason_code=SkipReason.IGNORED_FILENAME,
+            matched_rule="lockfile_suffix",
         )
 
     if path.suffix.lower() in settings.binary_extensions:
