@@ -7,30 +7,12 @@ from enum import StrEnum
 
 from pydantic import BaseModel, Field
 
-
-class SupportStatus(StrEnum):
-    SUPPORTED = "supported"
-    PARTIAL = "partial"
-    SKIPPED = "skipped"
-    UNSUPPORTED = "unsupported"
+from src.models.enums import SkipReason, SupportStatus
 
 
 class ScanAction(StrEnum):
     INCLUDE = "include"
     SKIP = "skip"
-
-
-class SkipReason(StrEnum):
-    ALLOWED = "allowed"
-    IGNORED_DIRECTORY = "ignored_directory"
-    IGNORED_FILENAME = "ignored_filename"
-    SECRET_SENSITIVE = "secret_sensitive"
-    BINARY_OR_ARCHIVE = "binary_or_archive"
-    MINIFIED_ASSET = "minified_asset"
-    OVERSIZED_FILE = "oversized_file"
-    UNSUPPORTED_EXTENSION = "unsupported_extension"
-    ANALYSIS_ROOT_ESCAPE = "analysis_root_escape"
-    TOTAL_BUDGET_EXCEEDED = "total_budget_exceeded"
 
 
 class ScanPolicyDecision(BaseModel):
