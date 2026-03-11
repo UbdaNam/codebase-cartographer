@@ -13,6 +13,7 @@ from src.constants import (
     DEFAULT_CACHE_DIR,
     DEFAULT_IGNORE_DIRS,
     DEFAULT_IGNORE_FILE_NAMES,
+    DEFAULT_IGNORE_FILE_PATTERNS,
     DEFAULT_LOGS_DIR,
     DEFAULT_RUNS_DIR,
     DEFAULT_SECRET_FILE_PATTERNS,
@@ -41,6 +42,7 @@ class AppSettings(BaseSettings):
     ignore_file_names: set[str] = Field(
         default_factory=lambda: set(DEFAULT_IGNORE_FILE_NAMES)
     )
+    ignore_file_patterns: tuple[str, ...] = DEFAULT_IGNORE_FILE_PATTERNS
     secret_sensitive_patterns: tuple[str, ...] = DEFAULT_SECRET_FILE_PATTERNS
     binary_extensions: set[str] = Field(
         default_factory=lambda: set(DEFAULT_BINARY_EXTENSIONS)

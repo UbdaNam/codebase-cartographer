@@ -44,6 +44,12 @@ DEFAULT_IGNORE_FILE_NAMES = {
     "Pipfile.lock",
 }
 
+DEFAULT_IGNORE_FILE_PATTERNS = (
+    ".python-version",
+    ".tool-versions",
+    ".*"
+)
+
 DEFAULT_SECRET_FILE_PATTERNS = (
     ".env",
     ".env.*",

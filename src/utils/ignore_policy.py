@@ -54,6 +54,14 @@ def should_skip_path(path: Path, repo_root: Path, settings: AppSettings) -> Scan
             matched_rule=path.name,
         )
 
+    if any(fnmatch(path.name, pattern) for pattern in settings.ignore_file_patterns):
+        return ScanPolicyDecision(
+            path=relative_label,
+            action=ScanAction.SKIP,
+            reason_code=SkipReason.IGNORED_FILENAME,
+            matched_rule="ignore_file_patterns",
+        )
+
     if any(fnmatch(path.name, pattern) for pattern in settings.secret_sensitive_patterns):
         return ScanPolicyDecision(
             path=relative_label,

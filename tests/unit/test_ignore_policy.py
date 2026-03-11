@@ -16,6 +16,33 @@ def test_secret_sensitive_files_are_skipped(tmp_path: Path) -> None:
     assert decision.reason_code == SkipReason.SECRET_SENSITIVE
 
 
+def test_generic_dotfile_patterns_are_skipped_without_secret_reason(tmp_path: Path) -> None:
+    ignored_file = tmp_path / ".python-version"
+    ignored_file.write_text("3.11.9", encoding="utf-8")
+    settings = AppSettings(repo_root=tmp_path)
+
+    decision = should_skip_path(ignored_file, tmp_path, settings)
+
+    assert decision.action == ScanAction.SKIP
+    assert decision.reason_code == SkipReason.IGNORED_FILENAME
+    assert decision.is_secret_sensitive is False
+
+
+def test_custom_ignore_file_patterns_are_supported(tmp_path: Path) -> None:
+    ignored_file = tmp_path / ".myapp.local"
+    ignored_file.write_text("debug=true", encoding="utf-8")
+    settings = AppSettings(
+        repo_root=tmp_path,
+        ignore_file_patterns=(".myapp.*",),
+    )
+
+    decision = should_skip_path(ignored_file, tmp_path, settings)
+
+    assert decision.action == ScanAction.SKIP
+    assert decision.reason_code == SkipReason.IGNORED_FILENAME
+    assert decision.matched_rule == "ignore_file_patterns"
+
+
 def test_oversized_files_are_skipped(tmp_path: Path) -> None:
     large_file = tmp_path / "large.py"
     large_file.write_text("x" * 20, encoding="utf-8")
