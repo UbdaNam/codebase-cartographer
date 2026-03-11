@@ -53,3 +53,10 @@ minimal run summary.
 - skip reasons MUST use stable reason codes
 - file classifications MUST use the approved support-status set:
   `supported`, `partial`, `skipped`, `unsupported`
+
+## Stage 0 Non-Goals
+
+- `cartographer analyze` MUST NOT perform AST parsing, lineage extraction,
+  graph execution, embeddings, or LLM-backed summarization
+- `cartographer query` MUST remain a stub until later stages provide queryable
+  semantic and graph artifacts

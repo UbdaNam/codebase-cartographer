@@ -31,11 +31,11 @@ implementation and testing of each story.
 **Purpose**: Bootstrap the Python project, baseline structure, and developer
 tooling required by all later work
 
-- [ ] T001 Create the Stage 0 source and test directory skeleton in `src/`, `src/utils/`, `src/models/`, `src/analyzers/`, `src/agents/`, `src/graph/`, `src/llm/`, `src/index/`, `tests/unit/`, `tests/integration/`, `tests/contract/`, and `tests/fixtures/`
-- [ ] T002 Initialize `pyproject.toml` for Python 3.11+ with `uv`, Typer, Pydantic, and pytest project metadata
-- [ ] T003 [P] Add package entrypoint stubs in `src/__init__.py` and `src/constants.py`
-- [ ] T004 [P] Add developer bootstrap and test commands to `README.md`
-- [ ] T005 [P] Create deterministic project-controlled artifact directories in `.cartography/runs/`, `.cartography/cache/`, and `.cartography/logs/`
+- [X] T001 Create the Stage 0 source and test directory skeleton in `src/`, `src/utils/`, `src/models/`, `src/analyzers/`, `src/agents/`, `src/graph/`, `src/llm/`, `src/index/`, `tests/unit/`, `tests/integration/`, `tests/contract/`, and `tests/fixtures/`
+- [X] T002 Initialize `pyproject.toml` for Python 3.11+ with `uv`, Typer, Pydantic, and pytest project metadata
+- [X] T003 [P] Add package entrypoint stubs in `src/__init__.py` and `src/constants.py`
+- [X] T004 [P] Add developer bootstrap and test commands to `README.md`
+- [X] T005 [P] Create deterministic project-controlled artifact directories in `.cartography/runs/`, `.cartography/cache/`, and `.cartography/logs/`
 
 ---
 
@@ -46,16 +46,16 @@ story can be implemented
 
 **CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T006 Implement typed runtime settings and override hooks in `src/config.py`
-- [ ] T007 [P] Define shared constants for support statuses, default ignore sets, and artifact directory names in `src/constants.py`
-- [ ] T008 [P] Create typed manifest, scan-policy, and run-metadata models in `src/models/manifest.py` and `src/models/run_metadata.py`
-- [ ] T009 Implement centralized safe-scanning and skip-reason policy in `src/utils/ignore_policy.py`
-- [ ] T010 [P] Implement language/support classification registry in `src/utils/file_classification.py`
-- [ ] T011 Implement deterministic single-pass repository manifest builder in `src/analyzers/repository_manifest.py`
-- [ ] T012 Implement structured logging helpers for Stage 0 runs in `src/utils/logging.py`
-- [ ] T013 Implement artifact initialization and run-context helpers in `src/utils/artifacts.py`
-- [ ] T014 Implement orchestration shell for run setup and minimal summaries in `src/orchestrator.py`
-- [ ] T015 Create fixture repositories for supported, unsupported, skipped, and secret-sensitive cases in `tests/fixtures/sample_repo/` and `tests/fixtures/secret_repo/`
+- [X] T006 Implement typed runtime settings and override hooks in `src/config.py`
+- [X] T007 [P] Define shared constants for support statuses, default ignore sets, and artifact directory names in `src/constants.py`
+- [X] T008 [P] Create typed manifest, scan-policy, and run-metadata models in `src/models/manifest.py` and `src/models/run_metadata.py`
+- [X] T009 Implement centralized safe-scanning and skip-reason policy in `src/utils/ignore_policy.py`
+- [X] T010 [P] Implement language/support classification registry in `src/utils/file_classification.py`
+- [X] T011 Implement deterministic single-pass repository manifest builder in `src/analyzers/repository_manifest.py`
+- [X] T012 Implement structured logging helpers for Stage 0 runs in `src/utils/logging.py`
+- [X] T013 Implement artifact initialization and run-context helpers in `src/utils/artifacts.py`
+- [X] T014 Implement orchestration shell for run setup and minimal summaries in `src/orchestrator.py`
+- [X] T015 Create fixture repositories for supported, unsupported, skipped, and secret-sensitive cases in `tests/fixtures/sample_repo/` and `tests/fixtures/secret_repo/`
 
 **Checkpoint**: Foundation ready; user story implementation can now begin in
 priority order or in parallel where dependencies allow
@@ -75,18 +75,18 @@ summary behavior without any deep repository analysis
 
 > **NOTE**: Write these tests FIRST and ensure they FAIL before implementation
 
-- [ ] T016 [P] [US1] Add configuration validation tests in `tests/unit/test_config.py`
-- [ ] T017 [P] [US1] Add artifact initialization and run metadata tests in `tests/unit/test_artifacts.py`
-- [ ] T018 [P] [US1] Add CLI contract tests for `analyze` and `query` stubs in `tests/contract/test_cli_contract.py`
-- [ ] T019 [P] [US1] Add integration test for placeholder run startup in `tests/integration/test_stage0_run_summary.py`
+- [X] T016 [P] [US1] Add configuration validation tests in `tests/unit/test_config.py`
+- [X] T017 [P] [US1] Add artifact initialization and run metadata tests in `tests/unit/test_artifacts.py`
+- [X] T018 [P] [US1] Add CLI contract tests for `analyze` and `query` stubs in `tests/contract/test_cli_contract.py`
+- [X] T019 [P] [US1] Add integration test for placeholder run startup in `tests/integration/test_stage0_run_summary.py`
 
 ### Implementation for User Story 1
 
-- [ ] T020 [P] [US1] Implement run-context and summary models in `src/models/run_metadata.py`
-- [ ] T021 [US1] Implement `.cartography` initialization and run summary writing in `src/utils/artifacts.py`
-- [ ] T022 [US1] Implement minimal analyze/query orchestration flow in `src/orchestrator.py`
-- [ ] T023 [US1] Implement Typer CLI entrypoints in `src/cli.py`
-- [ ] T024 [US1] Update Stage 0 quickstart commands and expected outcomes in `specs/001-bootstrap-cartographer-foundation/quickstart.md`
+- [X] T020 [P] [US1] Implement run-context and summary models in `src/models/run_metadata.py`
+- [X] T021 [US1] Implement `.cartography` initialization and run summary writing in `src/utils/artifacts.py`
+- [X] T022 [US1] Implement minimal analyze/query orchestration flow in `src/orchestrator.py`
+- [X] T023 [US1] Implement Typer CLI entrypoints in `src/cli.py`
+- [X] T024 [US1] Update Stage 0 quickstart commands and expected outcomes in `specs/001-bootstrap-cartographer-foundation/quickstart.md`
 
 **Checkpoint**: User Story 1 should be fully functional and independently
 testable as the Stage 0 MVP
@@ -104,18 +104,18 @@ oversized files, and support-status classifications are handled deterministicall
 
 ### Tests for User Story 2
 
-- [ ] T025 [P] [US2] Add ignore-rule and secret-sensitive path tests in `tests/unit/test_ignore_policy.py`
-- [ ] T026 [P] [US2] Add file classification and support-status tests in `tests/unit/test_file_classification.py`
-- [ ] T027 [P] [US2] Add deterministic manifest generation tests in `tests/unit/test_repository_manifest.py`
-- [ ] T028 [P] [US2] Add integration test for safe scanning over fixture repositories in `tests/integration/test_safe_scan_manifest.py`
+- [X] T025 [P] [US2] Add ignore-rule and secret-sensitive path tests in `tests/unit/test_ignore_policy.py`
+- [X] T026 [P] [US2] Add file classification and support-status tests in `tests/unit/test_file_classification.py`
+- [X] T027 [P] [US2] Add deterministic manifest generation tests in `tests/unit/test_repository_manifest.py`
+- [X] T028 [P] [US2] Add integration test for safe scanning over fixture repositories in `tests/integration/test_safe_scan_manifest.py`
 
 ### Implementation for User Story 2
 
-- [ ] T029 [P] [US2] Implement structured skip-reason types and policy decisions in `src/models/manifest.py`
-- [ ] T030 [US2] Implement centralized ignore and safe-scanning policy in `src/utils/ignore_policy.py`
-- [ ] T031 [US2] Implement supported-extension and support-status classification logic in `src/utils/file_classification.py`
-- [ ] T032 [US2] Implement deterministic single-pass repository inventory assembly in `src/analyzers/repository_manifest.py`
-- [ ] T033 [US2] Integrate manifest summary generation into the orchestrator flow in `src/orchestrator.py`
+- [X] T029 [P] [US2] Implement structured skip-reason types and policy decisions in `src/models/manifest.py`
+- [X] T030 [US2] Implement centralized ignore and safe-scanning policy in `src/utils/ignore_policy.py`
+- [X] T031 [US2] Implement supported-extension and support-status classification logic in `src/utils/file_classification.py`
+- [X] T032 [US2] Implement deterministic single-pass repository inventory assembly in `src/analyzers/repository_manifest.py`
+- [X] T033 [US2] Integrate manifest summary generation into the orchestrator flow in `src/orchestrator.py`
 
 **Checkpoint**: User Story 2 should be independently testable with fixture
 repositories and deterministic skip/classification outcomes
@@ -134,15 +134,15 @@ existing boundaries without restructuring the Stage 0 foundation
 
 ### Tests for User Story 3
 
-- [ ] T034 [P] [US3] Add tests for stable model serialization and status values in `tests/unit/test_models.py`
-- [ ] T035 [P] [US3] Add architecture-boundary smoke test for CLI-to-orchestrator wiring in `tests/integration/test_architecture_boundaries.py`
+- [X] T034 [P] [US3] Add tests for stable model serialization and status values in `tests/unit/test_models.py`
+- [X] T035 [P] [US3] Add architecture-boundary smoke test for CLI-to-orchestrator wiring in `tests/integration/test_architecture_boundaries.py`
 
 ### Implementation for User Story 3
 
-- [ ] T036 [P] [US3] Add future-agent boundary stubs in `src/agents/__init__.py` and `src/agents/boundaries.py`
-- [ ] T037 [P] [US3] Add analyzer, graph, llm, and index boundary stubs in `src/analyzers/__init__.py`, `src/graph/__init__.py`, `src/llm/__init__.py`, and `src/index/__init__.py`
-- [ ] T038 [P] [US3] Add shared utility exports in `src/utils/__init__.py` and model exports in `src/models/__init__.py`
-- [ ] T039 [US3] Document Stage 0 extension seams and non-goals in `README.md` and `specs/001-bootstrap-cartographer-foundation/contracts/cli-contract.md`
+- [X] T036 [P] [US3] Add future-agent boundary stubs in `src/agents/__init__.py` and `src/agents/boundaries.py`
+- [X] T037 [P] [US3] Add analyzer, graph, llm, and index boundary stubs in `src/analyzers/__init__.py`, `src/graph/__init__.py`, `src/llm/__init__.py`, and `src/index/__init__.py`
+- [X] T038 [P] [US3] Add shared utility exports in `src/utils/__init__.py` and model exports in `src/models/__init__.py`
+- [X] T039 [US3] Document Stage 0 extension seams and non-goals in `README.md` and `specs/001-bootstrap-cartographer-foundation/contracts/cli-contract.md`
 
 **Checkpoint**: All user stories should now be independently functional and the
 Stage 0 architecture should be ready for later phases
@@ -153,10 +153,10 @@ Stage 0 architecture should be ready for later phases
 
 **Purpose**: Final validation and cleanup across all Stage 0 stories
 
-- [ ] T040 [P] Run the full pytest suite and fix any remaining failures from `tests/unit/`, `tests/integration/`, and `tests/contract/`
-- [ ] T041 [P] Validate quickstart commands and artifact initialization flow against `specs/001-bootstrap-cartographer-foundation/quickstart.md`
-- [ ] T042 Verify deterministic output placement, skip reason stability, and read-only repository handling across `src/` and `.cartography/`
-- [ ] T043 [P] Clean up docstrings, typing, and module-level documentation in `src/config.py`, `src/orchestrator.py`, `src/utils/ignore_policy.py`, and `src/analyzers/repository_manifest.py`
+- [X] T040 [P] Run the full pytest suite and fix any remaining failures from `tests/unit/`, `tests/integration/`, and `tests/contract/`
+- [X] T041 [P] Validate quickstart commands and artifact initialization flow against `specs/001-bootstrap-cartographer-foundation/quickstart.md`
+- [X] T042 Verify deterministic output placement, skip reason stability, and read-only repository handling across `src/` and `.cartography/`
+- [X] T043 [P] Clean up docstrings, typing, and module-level documentation in `src/config.py`, `src/orchestrator.py`, `src/utils/ignore_policy.py`, and `src/analyzers/repository_manifest.py`
 
 ---
 

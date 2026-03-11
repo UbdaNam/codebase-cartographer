@@ -22,8 +22,10 @@ uv run python -m src.cli query "What is this repository?"
 Expected Stage 0 behavior:
 - initialize `.cartography/` artifact directories
 - create minimal run metadata
+- write a deterministic manifest under `.cartography/runs/<run-id>/manifest.json`
 - apply safe-scanning boundaries before any file reads
 - return placeholder summaries rather than deep analysis results
+- return a stub response for `query`
 
 ## Run tests
 
