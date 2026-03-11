@@ -13,6 +13,7 @@ DEFAULT_ARTIFACT_DIR = Path(".cartography")
 DEFAULT_RUNS_DIR = "runs"
 DEFAULT_CACHE_DIR = "cache"
 DEFAULT_LOGS_DIR = "logs"
+DEFAULT_REPOS_DIR = "repos"
 
 DEFAULT_IGNORE_DIRS = {
     ".git",
@@ -47,7 +48,6 @@ DEFAULT_IGNORE_FILE_NAMES = {
 DEFAULT_IGNORE_FILE_PATTERNS = (
     ".python-version",
     ".tool-versions",
-    ".*"
 )
 
 DEFAULT_SECRET_FILE_PATTERNS = (
