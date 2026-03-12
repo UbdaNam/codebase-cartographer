@@ -63,10 +63,13 @@ class SurveyorAgent:
         graph = build_import_graph(module_nodes, edges)
         hubs = compute_pagerank(graph, module_by_id)
         cycles = compute_strongly_connected_components(graph, module_by_id)
-        velocity_by_path, velocity_warnings = extract_git_velocity(
-            repo_root,
-            days=self.settings.git_velocity_lookback_days,
-        )
+        if (repo_root / ".git").exists():
+            velocity_by_path, velocity_warnings = extract_git_velocity(
+                repo_root,
+                days=self.settings.git_velocity_lookback_days,
+            )
+        else:
+            velocity_by_path, velocity_warnings = {}, ["git_velocity_unavailable:not_a_git_repo"]
         warnings.extend(velocity_warnings)
         if velocity_warnings:
             partial_flags.append("git_velocity_unavailable")

@@ -12,19 +12,14 @@ from src.models.enums import EdgeKind, NodeKind
 
 
 def canonicalize_name(value: str) -> str:
-    """Normalize names used as deterministic identity inputs."""
-
     return " ".join(value.strip().split()).lower()
 
 
 def normalize_relative_path(path: str) -> str:
-    """Normalize an analysis-root-relative path to POSIX form."""
-
     candidate = path.replace("\\", "/").strip()
     pure = PurePosixPath(candidate)
     if pure.is_absolute() or candidate.startswith("../") or "/../" in f"/{candidate}/":
-        msg = f"path must stay relative to the analysis root: {path}"
-        raise ValueError(msg)
+        raise ValueError(f"path must stay relative to the analysis root: {path}")
     normalized = pure.as_posix()
     if normalized.startswith("./"):
         normalized = normalized[2:]
@@ -32,48 +27,49 @@ def normalize_relative_path(path: str) -> str:
 
 
 def stable_id(namespace: str, *parts: str) -> str:
-    """Build a short deterministic identifier from canonical inputs."""
-
     digest = sha1("::".join((namespace, *parts)).encode("utf-8")).hexdigest()[:12]
     return f"{namespace}:{digest}"
 
 
 def build_node_id(kind: NodeKind | str, *, canonical_name: str, path: str | None = None) -> str:
-    """Build a deterministic node ID from canonical graph fields."""
-
     name_part = canonicalize_name(canonical_name)
     path_part = normalize_relative_path(path) if path else "-"
     return stable_id("node", str(kind), name_part, path_part)
 
 
 def build_edge_id(kind: EdgeKind | str, *, source_node_id: str, target_node_id: str) -> str:
-    """Build a deterministic edge ID from source, target, and edge kind."""
-
     return stable_id("edge", str(kind), source_node_id, target_node_id)
 
 
-def build_artifact_id(
-    artifact_kind: str,
-    *,
-    logical_name: str | None = None,
-    serialization_path: str | None = None,
-) -> str:
-    """Build a deterministic artifact ID from canonical artifact fields."""
-
+def build_artifact_id(artifact_kind: str, *, logical_name: str | None = None, serialization_path: str | None = None) -> str:
     name_part = canonicalize_name(logical_name or artifact_kind)
     path_part = normalize_relative_path(serialization_path) if serialization_path else "-"
     return stable_id("artifact", canonicalize_name(artifact_kind), name_part, path_part)
 
 
 def build_module_dependency_key(source_module_id: str, target_display: str) -> str:
-    """Build a deterministic key for one source-to-target dependency."""
-
     return stable_id("module_dependency", source_module_id, canonicalize_name(target_display))
 
 
-def canonicalize_json_value(value: Any) -> Any:
-    """Recursively normalize payload values for deterministic JSON output."""
+def build_dataset_id(canonical_name: str) -> str:
+    return stable_id("dataset", canonicalize_name(canonical_name))
 
+
+def build_transformation_id(file_path: str, transformation_name: str) -> str:
+    return stable_id("transformation", normalize_relative_path(file_path), canonicalize_name(transformation_name))
+
+
+def build_lineage_signal_id(source_path: str, raw_identifier: str, signal_source_kind: str, line_start: int | None = None) -> str:
+    return stable_id(
+        "lineage_signal",
+        normalize_relative_path(source_path),
+        canonicalize_name(signal_source_kind),
+        canonicalize_name(raw_identifier),
+        str(line_start or "-"),
+    )
+
+
+def canonicalize_json_value(value: Any) -> Any:
     if isinstance(value, BaseModel):
         return canonicalize_json_value(value.model_dump(mode="json"))
     if isinstance(value, dict):

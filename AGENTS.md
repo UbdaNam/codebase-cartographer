@@ -10,6 +10,8 @@ Auto-generated from all feature plans. Last updated: 2026-03-10
 - Project-controlled filesystem artifacts under `.cartography/`, including prepared repositories, run artifacts, cache, and logs (004-structural-analysis)
 - Python 3.11+ + Pydantic v2, pydantic-settings, Typer, pytest, NetworkX (005-surveyor-agent)
 - Project-controlled filesystem artifacts under `.cartography/`, including manifest, structural outputs, module graph artifacts, survey summaries, cache, and logs (005-surveyor-agent)
+- Python 3.11+ + Pydantic v2, pydantic-settings, Typer, pytest, NetworkX, sqlglot (006-hydrologist-agent)
+- Project-controlled filesystem artifacts under `.cartography/`, including manifest, structural outputs, module graph artifacts, lineage graph artifacts, summaries, cache, and logs (006-hydrologist-agent)
 
 - Python 3.11+ + uv, Typer, Pydantic, pytest (001-bootstrap-cartographer-foundation)
 
@@ -38,9 +40,9 @@ cd src; pytest; ruff check .
 Python 3.11+: Follow standard conventions
 
 ## Recent Changes
+- 006-hydrologist-agent: Added Python 3.11+ + Pydantic v2, pydantic-settings, Typer, pytest, NetworkX, sqlglot
 - 005-surveyor-agent: Added Python 3.11+ + Pydantic v2, pydantic-settings, Typer, pytest, NetworkX
 - 004-structural-analysis: Added Python 3.11+ + Pydantic v2, pydantic-settings, Typer, pytest, tree-sitter, git-based repository preparation
-- 003-repo-inventory: Added Python 3.11+ + Pydantic v2, pydantic-settings, Typer, pytest
 
 
 <!-- MANUAL ADDITIONS START -->
