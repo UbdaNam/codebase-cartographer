@@ -21,6 +21,13 @@ def _is_within_root(path: Path, repo_root: Path) -> bool:
     return True
 
 
+def _relative_parts(path: Path, repo_root: Path) -> tuple[str, ...]:
+    try:
+        return path.resolve().relative_to(repo_root.resolve()).parts
+    except ValueError:
+        return path.parts
+
+
 def should_skip_path(path: Path, repo_root: Path, settings: AppSettings) -> ScanPolicyDecision:
     """Return a structured policy decision for a candidate path."""
 
@@ -29,6 +36,7 @@ def should_skip_path(path: Path, repo_root: Path, settings: AppSettings) -> Scan
         relative_label = str(normalized.relative_to(repo_root.resolve()))
     except ValueError:
         relative_label = str(normalized)
+    relative_parts = _relative_parts(path, repo_root)
 
     if not _is_within_root(normalized, repo_root):
         return ScanPolicyDecision(
@@ -38,7 +46,7 @@ def should_skip_path(path: Path, repo_root: Path, settings: AppSettings) -> Scan
             matched_rule="analysis_root",
         )
 
-    if any(part in settings.ignore_dirs for part in path.parts):
+    if any(part in settings.ignore_dirs for part in relative_parts[:-1]):
         return ScanPolicyDecision(
             path=relative_label,
             action=ScanAction.SKIP,
@@ -54,14 +62,6 @@ def should_skip_path(path: Path, repo_root: Path, settings: AppSettings) -> Scan
             matched_rule=path.name,
         )
 
-    if any(fnmatch(path.name, pattern) for pattern in settings.ignore_file_patterns):
-        return ScanPolicyDecision(
-            path=relative_label,
-            action=ScanAction.SKIP,
-            reason_code=SkipReason.IGNORED_FILENAME,
-            matched_rule="ignore_file_patterns",
-        )
-
     if any(fnmatch(path.name, pattern) for pattern in settings.secret_sensitive_patterns):
         return ScanPolicyDecision(
             path=relative_label,
@@ -69,6 +69,14 @@ def should_skip_path(path: Path, repo_root: Path, settings: AppSettings) -> Scan
             reason_code=SkipReason.SECRET_SENSITIVE,
             matched_rule="secret_sensitive_patterns",
             is_secret_sensitive=True,
+        )
+
+    if any(fnmatch(path.name, pattern) for pattern in settings.ignore_file_patterns):
+        return ScanPolicyDecision(
+            path=relative_label,
+            action=ScanAction.SKIP,
+            reason_code=SkipReason.IGNORED_FILENAME,
+            matched_rule="ignore_file_patterns",
         )
 
     if path.suffix.lower() in LOCKFILE_SUFFIXES:

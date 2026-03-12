@@ -1,6 +1,12 @@
-"""Agent boundary exports for Brownfield Cartographer."""
+"""Agent entrypoints."""
 
-from src.agents.boundaries import DEFAULT_AGENT_BOUNDARIES, AgentBoundary
+from src.agents.boundaries import AgentBoundary, DEFAULT_AGENT_BOUNDARIES
+from src.agents.hydrologist import HydrologistAgent
 from src.agents.surveyor import SurveyorAgent
 
-__all__ = ["AgentBoundary", "DEFAULT_AGENT_BOUNDARIES", "SurveyorAgent"]
+__all__ = [
+    "AgentBoundary",
+    "DEFAULT_AGENT_BOUNDARIES",
+    "HydrologistAgent",
+    "SurveyorAgent",
+]

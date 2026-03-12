@@ -15,10 +15,10 @@ implementation and testing of each story.
 **Purpose**: Prepare the Stage 5 workspace, fixture layout, and dependency
 baseline for lineage extraction work.
 
-- [ ] T001 Update Stage 5 dependency and optional test extras in pyproject.toml
-- [ ] T002 [P] Add or refresh Hydrologist fixture repository skeletons under tests/fixtures/hydrologist_sql_repo/
-- [ ] T003 [P] Add or refresh Hydrologist fixture repository skeletons under tests/fixtures/hydrologist_python_repo/
-- [ ] T004 [P] Add or refresh Hydrologist fixture repository skeletons under tests/fixtures/hydrologist_partial_repo/
+- [X] T001 Update Stage 5 dependency and optional test extras in pyproject.toml
+- [X] T002 [P] Add or refresh Hydrologist fixture repository skeletons under tests/fixtures/hydrologist_sql_repo/
+- [X] T003 [P] Add or refresh Hydrologist fixture repository skeletons under tests/fixtures/hydrologist_python_repo/
+- [X] T004 [P] Add or refresh Hydrologist fixture repository skeletons under tests/fixtures/hydrologist_partial_repo/
 
 ---
 
@@ -29,12 +29,12 @@ on.
 
 **CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T005 Create Stage 5 lineage state and result model extensions in src/models/state.py
-- [ ] T006 [P] Add deterministic lineage graph payload and summary models in src/models/graph.py
-- [ ] T007 [P] Add dataset and transformation stable-ID helpers in src/utils/ids.py
-- [ ] T008 [P] Add lineage artifact write/read helpers in src/utils/artifacts.py
-- [ ] T009 Create shared lineage graph construction helpers in src/graph/lineage.py
-- [ ] T010 Create Hydrologist input-loading and stage boundary helpers in src/agents/hydrologist.py
+- [X] T005 Create Stage 5 lineage state and result model extensions in src/models/state.py
+- [X] T006 [P] Add deterministic lineage graph payload and summary models in src/models/graph.py
+- [X] T007 [P] Add dataset and transformation stable-ID helpers in src/utils/ids.py
+- [X] T008 [P] Add lineage artifact write/read helpers in src/utils/artifacts.py
+- [X] T009 Create shared lineage graph construction helpers in src/graph/lineage.py
+- [X] T010 Create Hydrologist input-loading and stage boundary helpers in src/agents/hydrologist.py
 
 **Checkpoint**: Shared lineage schemas, ID helpers, and artifact plumbing are
 ready; user story implementation can now begin.
@@ -52,18 +52,18 @@ stable across repeated unchanged runs.
 
 ### Tests for User Story 1
 
-- [ ] T011 [P] [US1] Add contract test for lineage artifact schema and ordering in tests/contract/test_hydrologist_artifacts.py
-- [ ] T012 [P] [US1] Add integration test for deterministic lineage graph generation in tests/integration/test_hydrologist_pipeline.py
-- [ ] T013 [P] [US1] Add unit test for dataset normalization and stable lineage IDs in tests/unit/test_lineage_normalization.py
+- [X] T011 [P] [US1] Add contract test for lineage artifact schema and ordering in tests/contract/test_hydrologist_artifacts.py
+- [X] T012 [P] [US1] Add integration test for deterministic lineage graph generation in tests/integration/test_hydrologist_pipeline.py
+- [X] T013 [P] [US1] Add unit test for dataset normalization and stable lineage IDs in tests/unit/test_lineage_normalization.py
 
 ### Implementation for User Story 1
 
-- [ ] T014 [P] [US1] Add DatasetNode and TransformationNode lineage contract extensions in src/models/graph.py
-- [ ] T015 [P] [US1] Implement dataset identifier normalization helpers in src/graph/lineage.py
-- [ ] T016 [US1] Implement directed DataLineageGraph assembly with CONSUMES and PRODUCES edges in src/graph/lineage.py
-- [ ] T017 [US1] Implement core Hydrologist stage orchestration for graph materialization in src/agents/hydrologist.py
-- [ ] T018 [US1] Wire deterministic lineage graph and summary serialization in src/utils/artifacts.py
-- [ ] T019 [US1] Register lineage artifact references and stage stats in src/models/state.py
+- [X] T014 [P] [US1] Add DatasetNode and TransformationNode lineage contract extensions in src/models/graph.py
+- [X] T015 [P] [US1] Implement dataset identifier normalization helpers in src/graph/lineage.py
+- [X] T016 [US1] Implement directed DataLineageGraph assembly with CONSUMES and PRODUCES edges in src/graph/lineage.py
+- [X] T017 [US1] Implement core Hydrologist stage orchestration for graph materialization in src/agents/hydrologist.py
+- [X] T018 [US1] Wire deterministic lineage graph and summary serialization in src/utils/artifacts.py
+- [X] T019 [US1] Register lineage artifact references and stage stats in src/models/state.py
 
 **Checkpoint**: User Story 1 should produce deterministic lineage artifacts from
 pre-normalized lineage signals and be independently testable.
@@ -81,19 +81,19 @@ transformation relationships.
 
 ### Tests for User Story 2
 
-- [ ] T020 [P] [US2] Add unit test for SQL lineage extraction and CTE handling in tests/unit/test_hydrologist_sql.py
-- [ ] T021 [P] [US2] Add unit test for Python data-ingestion and export pattern detection in tests/unit/test_hydrologist_python_patterns.py
-- [ ] T022 [P] [US2] Add unit test for YAML and dbt-style lineage references in tests/unit/test_hydrologist_yaml.py
-- [ ] T023 [P] [US2] Add integration test for mixed-source lineage extraction in tests/integration/test_hydrologist_mixed_sources.py
+- [X] T020 [P] [US2] Add unit test for SQL lineage extraction and CTE handling in tests/unit/test_hydrologist_sql.py
+- [X] T021 [P] [US2] Add unit test for Python data-ingestion and export pattern detection in tests/unit/test_hydrologist_python_patterns.py
+- [X] T022 [P] [US2] Add unit test for YAML and dbt-style lineage references in tests/unit/test_hydrologist_yaml.py
+- [X] T023 [P] [US2] Add integration test for mixed-source lineage extraction in tests/integration/test_hydrologist_mixed_sources.py
 
 ### Implementation for User Story 2
 
-- [ ] T024 [P] [US2] Implement standalone SQL and dbt-style SQL lineage extraction using sqlglot in src/agents/hydrologist.py
-- [ ] T025 [P] [US2] Implement embedded SQL extraction from structural and source-backed Python inputs in src/agents/hydrologist.py
-- [ ] T026 [P] [US2] Implement static Python data-operation detectors for pandas, Spark, SQLAlchemy, and connector patterns in src/agents/hydrologist.py
-- [ ] T027 [P] [US2] Implement YAML pipeline and dataset reference extraction in src/agents/hydrologist.py
-- [ ] T028 [US2] Merge SQL, Python, and YAML lineage signals into shared DatasetNode and TransformationNode creation in src/agents/hydrologist.py
-- [ ] T029 [US2] Connect multi-source lineage extraction to graph assembly in src/graph/lineage.py
+- [X] T024 [P] [US2] Implement standalone SQL and dbt-style SQL lineage extraction using sqlglot in src/agents/hydrologist.py
+- [X] T025 [P] [US2] Implement embedded SQL extraction from structural and source-backed Python inputs in src/agents/hydrologist.py
+- [X] T026 [P] [US2] Implement static Python data-operation detectors for pandas, Spark, SQLAlchemy, and connector patterns in src/agents/hydrologist.py
+- [X] T027 [P] [US2] Implement YAML pipeline and dataset reference extraction in src/agents/hydrologist.py
+- [X] T028 [US2] Merge SQL, Python, and YAML lineage signals into shared DatasetNode and TransformationNode creation in src/agents/hydrologist.py
+- [X] T029 [US2] Connect multi-source lineage extraction to graph assembly in src/graph/lineage.py
 
 **Checkpoint**: User Stories 1 and 2 should now support deterministic lineage
 across the required Stage 5 source styles.
@@ -111,16 +111,16 @@ run-wide failure.
 
 ### Tests for User Story 3
 
-- [ ] T030 [P] [US3] Add unit test for malformed SQL and partial lineage warnings in tests/unit/test_hydrologist_partial_sql.py
-- [ ] T031 [P] [US3] Add unit test for ambiguous Python lineage and weak-signal confidence handling in tests/unit/test_hydrologist_partial_python.py
-- [ ] T032 [P] [US3] Add integration test for partial lineage artifact emission in tests/integration/test_hydrologist_partial_pipeline.py
+- [X] T030 [P] [US3] Add unit test for malformed SQL and partial lineage warnings in tests/unit/test_hydrologist_partial_sql.py
+- [X] T031 [P] [US3] Add unit test for ambiguous Python lineage and weak-signal confidence handling in tests/unit/test_hydrologist_partial_python.py
+- [X] T032 [P] [US3] Add integration test for partial lineage artifact emission in tests/integration/test_hydrologist_partial_pipeline.py
 
 ### Implementation for User Story 3
 
-- [ ] T033 [P] [US3] Implement structured warning and partial-result signaling for malformed SQL, unsupported YAML, and dynamic Python cues in src/agents/hydrologist.py
-- [ ] T034 [P] [US3] Implement conservative confidence and support-status propagation for weak lineage signals in src/models/graph.py
-- [ ] T035 [US3] Preserve partial lineage graph outputs and warning summaries during degraded runs in src/graph/lineage.py
-- [ ] T036 [US3] Register degraded Hydrologist execution paths and warning summaries in src/models/state.py
+- [X] T033 [P] [US3] Implement structured warning and partial-result signaling for malformed SQL, unsupported YAML, and dynamic Python cues in src/agents/hydrologist.py
+- [X] T034 [P] [US3] Implement conservative confidence and support-status propagation for weak lineage signals in src/models/graph.py
+- [X] T035 [US3] Preserve partial lineage graph outputs and warning summaries during degraded runs in src/graph/lineage.py
+- [X] T036 [US3] Register degraded Hydrologist execution paths and warning summaries in src/models/state.py
 
 **Checkpoint**: All three user stories should now be independently functional
 with deterministic outputs and graceful degradation behavior.
@@ -132,12 +132,12 @@ with deterministic outputs and graceful degradation behavior.
 **Purpose**: Finish orchestration, CLI exposure, docs, and full-stage
 validation across all user stories.
 
-- [ ] T037 [P] Integrate Hydrologist stage sequencing into src/orchestrator.py
-- [ ] T038 [P] Expose Hydrologist lineage summary reporting in src/cli.py
-- [ ] T039 Update Stage 5 docs and artifact expectations in README.md
-- [ ] T040 [P] Add regression coverage for deterministic lineage artifact ordering in tests/integration/test_hydrologist_determinism.py
-- [ ] T041 Validate quickstart scenarios and update specs/006-hydrologist-agent/quickstart.md
-- [ ] T042 Run the full pytest suite and fix any remaining Stage 5 regressions touching tests/
+- [X] T037 [P] Integrate Hydrologist stage sequencing into src/orchestrator.py
+- [X] T038 [P] Expose Hydrologist lineage summary reporting in src/cli.py
+- [X] T039 Update Stage 5 docs and artifact expectations in README.md
+- [X] T040 [P] Add regression coverage for deterministic lineage artifact ordering in tests/integration/test_hydrologist_determinism.py
+- [X] T041 Validate quickstart scenarios and update specs/006-hydrologist-agent/quickstart.md
+- [X] T042 Run the full pytest suite and fix any remaining Stage 5 regressions touching tests/
 
 ---
 

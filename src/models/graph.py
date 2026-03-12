@@ -7,21 +7,12 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_serializer, field_validator, model_validator
 
-from src.models.enums import (
-    AnalysisMethod,
-    ConfidenceBand,
-    EdgeKind,
-    NodeKind,
-    SkipReason,
-    SupportStatus,
-)
+from src.models.enums import AnalysisMethod, ConfidenceBand, EdgeKind, NodeKind, SkipReason, SupportStatus
 from src.models.evidence import EvidenceRecord
-from src.utils.ids import build_edge_id, build_node_id, canonicalize_json_value, normalize_relative_path
+from src.utils.ids import build_dataset_id, build_edge_id, build_node_id, build_transformation_id, canonicalize_json_value, normalize_relative_path
 
 
 class GraphNodeBase(BaseModel):
-    """Common graph node fields shared by specialized node contracts."""
-
     model_config = ConfigDict(extra="forbid")
 
     node_id: str | None = None
@@ -91,39 +82,62 @@ class DatasetNode(GraphNodeBase):
     dataset_name: str
     platform: str | None = None
     namespace: str | None = None
+    display_name: str | None = None
+    source_kinds: list[str] = Field(default_factory=list)
+    warnings: list[str] = Field(default_factory=list)
 
     @model_validator(mode="before")
     @classmethod
     def populate_dataset_defaults(cls, data: Any) -> Any:
-        if isinstance(data, dict) and not data.get("canonical_name"):
+        if isinstance(data, dict):
             dataset_name = data.get("dataset_name")
             namespace = data.get("namespace")
-            if dataset_name:
+            canonical_name = data.get("canonical_name")
+            if dataset_name and not canonical_name:
                 data["canonical_name"] = f"{namespace}.{dataset_name}" if namespace else dataset_name
+            if dataset_name and not data.get("display_name"):
+                data["display_name"] = dataset_name
         return data
+
+    @model_validator(mode="after")
+    def finalize_dataset_identity(self) -> "DatasetNode":
+        if self.node_id is None:
+            self.node_id = build_dataset_id(self.canonical_name)
+        return self
 
 
 class TransformationNode(GraphNodeBase):
     kind: Literal[NodeKind.TRANSFORMATION] = NodeKind.TRANSFORMATION
     transformation_name: str
     operation_type: str | None = None
+    module_or_file_id: str | None = None
+    transformation_kind: str | None = None
+    display_name: str | None = None
+    warnings: list[str] = Field(default_factory=list)
 
     @model_validator(mode="before")
     @classmethod
     def populate_transformation_defaults(cls, data: Any) -> Any:
-        if isinstance(data, dict) and not data.get("canonical_name"):
+        if isinstance(data, dict):
             transformation_name = data.get("transformation_name")
-            if transformation_name:
+            if transformation_name and not data.get("canonical_name"):
                 data["canonical_name"] = transformation_name
+            if transformation_name and not data.get("display_name"):
+                data["display_name"] = transformation_name
         return data
+
+    @model_validator(mode="after")
+    def finalize_transformation_identity(self) -> "TransformationNode":
+        if self.node_id is None:
+            identity_path = self.path or self.module_or_file_id or self.canonical_name
+            self.node_id = build_transformation_id(identity_path, self.canonical_name)
+        return self
 
 
 GraphNode = ModuleNode | DatasetNode | TransformationNode
 
 
 class GraphEdge(BaseModel):
-    """Typed relationship connecting two graph nodes."""
-
     model_config = ConfigDict(extra="forbid")
 
     edge_id: str | None = None
@@ -146,17 +160,11 @@ class GraphEdge(BaseModel):
         if self.skip_reason and self.support_status == SupportStatus.SUPPORTED:
             raise ValueError("skip_reason cannot be set when support_status is supported")
         if self.edge_id is None:
-            self.edge_id = build_edge_id(
-                self.kind,
-                source_node_id=self.source_node_id,
-                target_node_id=self.target_node_id,
-            )
+            self.edge_id = build_edge_id(self.kind, source_node_id=self.source_node_id, target_node_id=self.target_node_id)
         return self
 
 
 class GraphPayload(BaseModel):
-    """Deterministic graph container intended for `.cartography` outputs."""
-
     model_config = ConfigDict(extra="forbid")
 
     version: str = "1.0"
@@ -182,10 +190,7 @@ class GraphPayload(BaseModel):
 
 
 class SurveyHub(BaseModel):
-    """Deterministic architectural hub ranking entry."""
-
     model_config = ConfigDict(extra="forbid")
-
     module_id: str
     relative_path: str
     score: float
@@ -197,10 +202,7 @@ class SurveyHub(BaseModel):
 
 
 class SurveyCycle(BaseModel):
-    """Deterministic strongly connected component payload."""
-
     model_config = ConfigDict(extra="forbid")
-
     module_ids: list[str]
     relative_paths: list[str]
 
@@ -214,10 +216,7 @@ class SurveyCycle(BaseModel):
 
 
 class VelocityRecord(BaseModel):
-    """Recent change-frequency record for one module or file."""
-
     model_config = ConfigDict(extra="forbid")
-
     module_id: str
     relative_path: str
     lookback_days: int
@@ -231,10 +230,7 @@ class VelocityRecord(BaseModel):
 
 
 class DeadCodeCandidate(BaseModel):
-    """Conservative heuristic dead-code signal for a module."""
-
     model_config = ConfigDict(extra="forbid")
-
     module_id: str
     relative_path: str
     reason_codes: list[str] = Field(default_factory=list)
@@ -252,10 +248,7 @@ class DeadCodeCandidate(BaseModel):
 
 
 class SurveySummaryPayload(BaseModel):
-    """Deterministic Surveyor summary artifact."""
-
     model_config = ConfigDict(extra="forbid")
-
     version: str = "1.0"
     generated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
     run_id: str
@@ -298,6 +291,40 @@ class SurveySummaryPayload(BaseModel):
     def serialize_dead_code(self, value: list[DeadCodeCandidate]) -> list[dict[str, Any]]:
         ordered = sorted(value, key=lambda item: (item.relative_path, item.module_id))
         return [canonicalize_json_value(item.model_dump(mode="json")) for item in ordered]
+
+    @field_serializer("warnings")
+    def serialize_warnings(self, value: list[str]) -> list[str]:
+        return sorted(dict.fromkeys(value))
+
+    @field_serializer("partial_result_flags")
+    def serialize_partial_flags(self, value: list[str]) -> list[str]:
+        return sorted(dict.fromkeys(value))
+
+    @field_serializer("stats")
+    def serialize_stats(self, value: dict[str, Any]) -> dict[str, Any]:
+        return canonicalize_json_value(value)
+
+
+class LineageSummaryPayload(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    version: str = "1.0"
+    generated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
+    run_id: str
+    analysis_root: str
+    dataset_count: int
+    transformation_count: int
+    edge_count: int
+    sql_signal_count: int
+    python_signal_count: int
+    yaml_signal_count: int
+    warnings: list[str] = Field(default_factory=list)
+    partial_result_flags: list[str] = Field(default_factory=list)
+    stats: dict[str, Any] = Field(default_factory=dict)
+
+    @field_validator("analysis_root")
+    @classmethod
+    def validate_analysis_root(cls, value: str) -> str:
+        return value.replace("\\", "/")
 
     @field_serializer("warnings")
     def serialize_warnings(self, value: list[str]) -> list[str]:
