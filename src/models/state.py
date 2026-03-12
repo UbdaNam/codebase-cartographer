@@ -57,11 +57,14 @@ class RunSummary(BaseModel):
     structural_summary_path: str | None = None
     module_graph_path: str | None = None
     survey_summary_path: str | None = None
+    lineage_graph_path: str | None = None
+    lineage_summary_path: str | None = None
     artifact_paths: list[str] = Field(default_factory=list)
     warnings: list[str] = Field(default_factory=list)
     inventory_stats: dict[str, int] = Field(default_factory=dict)
     structural_stats: dict[str, int] = Field(default_factory=dict)
     survey_stats: dict[str, int] = Field(default_factory=dict)
+    lineage_stats: dict[str, int] = Field(default_factory=dict)
 
     @field_validator(
         "prepared_repo_path",
@@ -70,6 +73,8 @@ class RunSummary(BaseModel):
         "structural_summary_path",
         "module_graph_path",
         "survey_summary_path",
+        "lineage_graph_path",
+        "lineage_summary_path",
     )
     @classmethod
     def validate_optional_paths(cls, value: str | None) -> str | None:
@@ -91,6 +96,10 @@ class RunSummary(BaseModel):
 
     @field_serializer("survey_stats")
     def serialize_survey_stats(self, value: dict[str, int]) -> dict[str, int]:
+        return canonicalize_json_value(value)
+
+    @field_serializer("lineage_stats")
+    def serialize_lineage_stats(self, value: dict[str, int]) -> dict[str, int]:
         return canonicalize_json_value(value)
 
 

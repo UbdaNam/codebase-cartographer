@@ -3,15 +3,15 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime, UTC
+from datetime import UTC, datetime
 from pathlib import Path
 from uuid import uuid4
 
 from src.config import AppSettings
-from src.models.graph import GraphPayload, SurveySummaryPayload
+from src.models.graph import GraphPayload, LineageSummaryPayload, SurveySummaryPayload
 from src.models.manifest import RepositoryManifest
 from src.models.run_metadata import RunContext, RunStatus, RunSummary
-from src.models.structural import AstIndexPayload, StructuralIndexPayload, StructuralSummary
+from src.models.structural import AstIndexPayload, StructuralIndexPayload
 
 
 def initialize_artifact_dirs(settings: AppSettings) -> dict[str, Path]:
@@ -117,3 +117,18 @@ def write_surveyor_artifacts(
     write_json(module_graph_path, module_graph)
     write_json(survey_summary_path, survey_summary)
     return module_graph_path, survey_summary_path
+
+
+def write_hydrologist_artifacts(
+    run_dir: Path,
+    lineage_graph: GraphPayload,
+    lineage_summary: LineageSummaryPayload,
+    settings: AppSettings,
+) -> tuple[Path, Path]:
+    """Persist Stage 5 Hydrologist artifacts and summary."""
+
+    lineage_graph_path = settings.lineage_graph_path(run_dir)
+    lineage_summary_path = settings.lineage_summary_path(run_dir)
+    write_json(lineage_graph_path, lineage_graph)
+    write_json(lineage_summary_path, lineage_summary)
+    return lineage_graph_path, lineage_summary_path

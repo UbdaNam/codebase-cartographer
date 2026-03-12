@@ -7,12 +7,12 @@ import typer
 from src.config import AppSettings
 from src.orchestrator import CartographyOrchestrator
 
-app = typer.Typer(help="Brownfield Cartographer CLI.")
+app = typer.Typer(help='Brownfield Cartographer CLI.')
 
 
 @app.command()
-def analyze(repo: str = typer.Option(".", "--repo")) -> None:
-    """Run Stage 4 analysis through Surveyor."""
+def analyze(repo: str = typer.Option('.', '--repo')) -> None:
+    """Run Stage 5 analysis through Hydrologist."""
 
     settings = AppSettings()
     orchestrator = CartographyOrchestrator(settings)
@@ -22,12 +22,12 @@ def analyze(repo: str = typer.Option(".", "--repo")) -> None:
 
 @app.command()
 def query(question: str) -> None:
-    """Return the Stage 4 query stub response."""
+    """Return the existing query stub response."""
 
     settings = AppSettings()
     orchestrator = CartographyOrchestrator(settings)
     typer.echo(orchestrator.query(question))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app()
