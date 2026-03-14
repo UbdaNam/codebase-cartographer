@@ -1,0 +1,1 @@
+"""Partial Semanticist fixture package."""

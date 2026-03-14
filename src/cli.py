@@ -12,7 +12,7 @@ app = typer.Typer(help='Brownfield Cartographer CLI.')
 
 @app.command()
 def analyze(repo: str = typer.Option('.', '--repo')) -> None:
-    """Run Stage 5 analysis through Hydrologist."""
+    """Run Stage 6 analysis through Semanticist."""
 
     settings = AppSettings()
     orchestrator = CartographyOrchestrator(settings)

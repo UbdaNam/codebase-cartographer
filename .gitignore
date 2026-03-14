@@ -22,5 +22,6 @@ Thumbs.db
 .idea/
 .env
 .env.*
+*.log
 .cartography/
 requirement doc

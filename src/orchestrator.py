@@ -1,4 +1,4 @@
-"""Repository preparation, inventory, structural analysis, Surveyor, and Hydrologist orchestration."""
+"""Repository preparation, inventory, structural analysis, Surveyor, Hydrologist, and Semanticist orchestration."""
 
 from __future__ import annotations
 
@@ -6,13 +6,14 @@ import os
 from pathlib import Path
 
 from src.agents.hydrologist import HydrologistAgent
+from src.agents.semanticist import SemanticistAgent
 from src.agents.surveyor import SurveyorAgent
 from src.analyzers.repository_manifest import build_repository_manifest
 from src.analyzers.tree_sitter_analyzer import TreeSitterAnalyzer
 from src.config import AppSettings
 from src.models.run_metadata import RunStatus, RunSummary
 from src.utils.repository_preparation import prepare_repository
-from src.utils.artifacts import create_run_context, finalize_run, initialize_artifact_dirs, write_hydrologist_artifacts, write_inventory_artifacts, write_surveyor_artifacts, write_structural_artifacts
+from src.utils.artifacts import create_run_context, finalize_run, initialize_artifact_dirs, write_hydrologist_artifacts, write_inventory_artifacts, write_semanticist_artifacts, write_surveyor_artifacts, write_structural_artifacts
 from src.utils.logging import create_logger, log_event
 
 
@@ -40,11 +41,29 @@ class CartographyOrchestrator:
         module_graph_path, survey_summary_path = write_surveyor_artifacts(run_dir, module_graph, survey_summary, self.settings)
         lineage_graph, lineage_summary = HydrologistAgent(self.settings).analyze(prepared_repository, manifest, structural_index, module_graph, run_id=context.run_id, artifact_dir=str(self.settings.resolved_artifact_dir()))
         lineage_graph_path, lineage_summary_path = write_hydrologist_artifacts(run_dir, lineage_graph, lineage_summary, self.settings)
+        semantic_result = SemanticistAgent(self.settings).analyze(
+            prepared_repository,
+            manifest,
+            structural_index,
+            module_graph,
+            lineage_graph,
+            run_id=context.run_id,
+            artifact_dir=str(self.settings.resolved_artifact_dir()),
+            logger=logger,
+        )
+        module_semantics_path, documentation_drift_path, domain_map_path, day_one_answers_path = write_semanticist_artifacts(
+            run_dir,
+            semantic_result.module_semantics,
+            semantic_result.documentation_drift,
+            semantic_result.domain_map,
+            semantic_result.day_one_answers,
+            self.settings,
+        )
 
         summary = RunSummary(
             run_id=context.run_id,
             status=RunStatus.COMPLETED,
-            message='Stage 5 Hydrologist analysis completed with deterministic architectural and lineage artifacts.',
+            message='Stage 6 Semanticist analysis completed with deterministic architectural, lineage, and semantic artifacts.',
             prepared_repo_path=prepared_repository.local_repo_path,
             manifest_path=str(manifest_path),
             inventory_summary_path=str(summary_path),
@@ -53,16 +72,49 @@ class CartographyOrchestrator:
             survey_summary_path=str(survey_summary_path),
             lineage_graph_path=str(lineage_graph_path),
             lineage_summary_path=str(lineage_summary_path),
-            artifact_paths=[str(manifest_path), str(summary_path), str(structural_index_path), str(ast_index_path), str(structural_summary_path), str(module_graph_path), str(survey_summary_path), str(lineage_graph_path), str(lineage_summary_path)],
-            warnings=[f'skipped:{manifest.summary.skipped_count}', f'unsupported:{manifest.summary.unsupported_count}', f'partial:{manifest.summary.partial_count}', f'structural_partial:{structural_index.summary.partial_files}', *survey_summary.partial_result_flags, *lineage_summary.partial_result_flags],
+            module_semantics_path=str(module_semantics_path),
+            documentation_drift_path=str(documentation_drift_path),
+            domain_map_path=str(domain_map_path),
+            day_one_answers_path=str(day_one_answers_path),
+            artifact_paths=[
+                str(manifest_path),
+                str(summary_path),
+                str(structural_index_path),
+                str(ast_index_path),
+                str(structural_summary_path),
+                str(module_graph_path),
+                str(survey_summary_path),
+                str(lineage_graph_path),
+                str(lineage_summary_path),
+                str(module_semantics_path),
+                str(documentation_drift_path),
+                str(domain_map_path),
+                str(day_one_answers_path),
+            ],
+            warnings=[
+                f'skipped:{manifest.summary.skipped_count}',
+                f'unsupported:{manifest.summary.unsupported_count}',
+                f'partial:{manifest.summary.partial_count}',
+                f'structural_partial:{structural_index.summary.partial_files}',
+                *survey_summary.partial_result_flags,
+                *lineage_summary.partial_result_flags,
+                *semantic_result.ledger.warning_codes,
+            ],
             inventory_stats={'total_candidates': manifest.summary.total_candidates, 'supported_count': manifest.summary.supported_count, 'partial_count': manifest.summary.partial_count, 'unsupported_count': manifest.summary.unsupported_count, 'skipped_count': manifest.summary.skipped_count, 'parse_eligible_count': manifest.summary.parse_eligible_count, 'bytes_considered': manifest.summary.bytes_considered, 'bytes_scanned': manifest.summary.bytes_scanned},
             structural_stats={'total_files': structural_index.summary.total_files, 'parsed_files': structural_index.summary.parsed_files, 'partial_files': structural_index.summary.partial_files, 'skipped_files': structural_index.summary.skipped_files, 'failed_files': structural_index.summary.failed_files, 'unsupported_files': structural_index.summary.unsupported_files, 'record_count': structural_index.summary.record_count},
             survey_stats={key: int(value) for key, value in survey_summary.stats.items() if isinstance(value, int)},
             lineage_stats={key: int(value) for key, value in lineage_summary.stats.items() if isinstance(value, int)},
+            semantic_stats={
+                'analyzed_module_count': semantic_result.ledger.analyzed_module_count,
+                'partial_module_count': semantic_result.ledger.partial_module_count,
+                'drift_record_count': semantic_result.ledger.drift_record_count,
+                'domain_count': semantic_result.ledger.domain_count,
+                'provider_request_count': semantic_result.ledger.provider_request_count,
+            },
         )
         context.generated_artifact_paths = summary.artifact_paths
         finalize_run(context, run_dir, summary, status=RunStatus.COMPLETED)
-        log_event(logger, event='run_completed', run_id=context.run_id, manifest_path=str(manifest_path), summary_path=str(summary_path), structural_index_path=str(structural_index_path), ast_index_path=str(ast_index_path), module_graph_path=str(module_graph_path), survey_summary_path=str(survey_summary_path), lineage_graph_path=str(lineage_graph_path), lineage_summary_path=str(lineage_summary_path), supported_count=manifest.summary.supported_count, partial_count=manifest.summary.partial_count, skipped_count=manifest.summary.skipped_count, unsupported_count=manifest.summary.unsupported_count, parse_eligible_count=manifest.summary.parse_eligible_count, structural_record_count=structural_index.summary.record_count, module_count=survey_summary.module_count, import_edge_count=survey_summary.import_edge_count, dataset_count=lineage_summary.dataset_count, transformation_count=lineage_summary.transformation_count, lineage_edge_count=lineage_summary.edge_count)
+        log_event(logger, event='run_completed', run_id=context.run_id, manifest_path=str(manifest_path), summary_path=str(summary_path), structural_index_path=str(structural_index_path), ast_index_path=str(ast_index_path), module_graph_path=str(module_graph_path), survey_summary_path=str(survey_summary_path), lineage_graph_path=str(lineage_graph_path), lineage_summary_path=str(lineage_summary_path), module_semantics_path=str(module_semantics_path), documentation_drift_path=str(documentation_drift_path), domain_map_path=str(domain_map_path), day_one_answers_path=str(day_one_answers_path), supported_count=manifest.summary.supported_count, partial_count=manifest.summary.partial_count, skipped_count=manifest.summary.skipped_count, unsupported_count=manifest.summary.unsupported_count, parse_eligible_count=manifest.summary.parse_eligible_count, structural_record_count=structural_index.summary.record_count, module_count=survey_summary.module_count, import_edge_count=survey_summary.import_edge_count, dataset_count=lineage_summary.dataset_count, transformation_count=lineage_summary.transformation_count, lineage_edge_count=lineage_summary.edge_count, semantic_module_count=semantic_result.ledger.analyzed_module_count, drift_record_count=semantic_result.ledger.drift_record_count, domain_count=semantic_result.ledger.domain_count)
         return summary
 
     def query(self, question: str) -> str:

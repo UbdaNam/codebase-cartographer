@@ -11,6 +11,7 @@ from src.config import AppSettings
 from src.models.graph import GraphPayload, LineageSummaryPayload, SurveySummaryPayload
 from src.models.manifest import RepositoryManifest
 from src.models.run_metadata import RunContext, RunStatus, RunSummary
+from src.models.semantic import DayOneAnswersPayload, DocumentationDriftPayload, DomainMapPayload, ModuleSemanticsPayload
 from src.models.structural import AstIndexPayload, StructuralIndexPayload
 
 
@@ -132,3 +133,24 @@ def write_hydrologist_artifacts(
     write_json(lineage_graph_path, lineage_graph)
     write_json(lineage_summary_path, lineage_summary)
     return lineage_graph_path, lineage_summary_path
+
+
+def write_semanticist_artifacts(
+    run_dir: Path,
+    module_semantics: ModuleSemanticsPayload,
+    documentation_drift: DocumentationDriftPayload,
+    domain_map: DomainMapPayload,
+    day_one_answers: DayOneAnswersPayload,
+    settings: AppSettings,
+) -> tuple[Path, Path, Path, Path]:
+    """Persist Stage 6 Semanticist artifacts."""
+
+    module_semantics_path = settings.module_semantics_path(run_dir)
+    documentation_drift_path = settings.documentation_drift_path(run_dir)
+    domain_map_path = settings.domain_map_path(run_dir)
+    day_one_answers_path = settings.day_one_answers_path(run_dir)
+    write_json(module_semantics_path, module_semantics)
+    write_json(documentation_drift_path, documentation_drift)
+    write_json(domain_map_path, domain_map)
+    write_json(day_one_answers_path, day_one_answers)
+    return module_semantics_path, documentation_drift_path, domain_map_path, day_one_answers_path
