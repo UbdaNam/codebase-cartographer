@@ -69,6 +69,32 @@ def build_lineage_signal_id(source_path: str, raw_identifier: str, signal_source
     )
 
 
+def build_semantic_profile_id(module_id: str) -> str:
+    return stable_id("semantic_profile", module_id)
+
+
+def build_drift_id(module_id: str, drift_type: str, documentation_path: str | None = None) -> str:
+    return stable_id("documentation_drift", module_id, canonicalize_name(drift_type), normalize_relative_path(documentation_path) if documentation_path else "-")
+
+
+def build_domain_id(label: str) -> str:
+    return stable_id("domain", canonicalize_name(label))
+
+
+def build_day_one_answer_id(question_id: str) -> str:
+    return stable_id("day_one_answer", canonicalize_name(question_id))
+
+
+def build_evidence_reference_id(source_kind: str, repository_path: str, line_start: int | None = None, line_end: int | None = None) -> str:
+    return stable_id(
+        "semantic_evidence",
+        canonicalize_name(source_kind),
+        normalize_relative_path(repository_path),
+        str(line_start or "-"),
+        str(line_end or "-"),
+    )
+
+
 def canonicalize_json_value(value: Any) -> Any:
     if isinstance(value, BaseModel):
         return canonicalize_json_value(value.model_dump(mode="json"))

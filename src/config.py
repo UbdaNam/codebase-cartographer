@@ -23,7 +23,13 @@ from src.constants import (
 
 
 class AppSettings(BaseSettings):
-    model_config = SettingsConfigDict(env_prefix="CARTOGRAPHY_", env_nested_delimiter="__", extra="ignore")
+    model_config = SettingsConfigDict(
+        env_prefix="CARTOGRAPHY_",
+        env_nested_delimiter="__",
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
 
     repo_root: Path = Field(default_factory=lambda: Path(".").resolve())
     artifact_dir: Path = DEFAULT_ARTIFACT_DIR
@@ -40,6 +46,24 @@ class AppSettings(BaseSettings):
     cache_enabled: bool = True
     git_velocity_lookback_days: int = 30
     high_velocity_core_change_share: float = 0.8
+    semantic_git_lookback_days: int = 90
+    semantic_module_excerpt_lines: int = 12
+    semantic_max_prompt_tokens: int = 14_000
+    semantic_max_completion_tokens: int = 900
+    semantic_completion_reserve_tokens: int = 160
+    semantic_max_total_prompt_tokens: int = 250_000
+    semantic_max_total_completion_tokens: int = 60_000
+    semantic_max_requests_per_run: int = 500
+    semantic_domain_min_clusters: int = 5
+    semantic_domain_max_clusters: int = 8
+    semantic_provider_enabled: bool = True
+    openrouter_api_key: str | None = None
+    openrouter_base_url: str = "https://openrouter.ai/api/v1"
+    openrouter_app_name: str = "codebase-cartographer"
+    openrouter_referer: str | None = None
+    semantic_purpose_model: str = "google/gemini-2.0-flash-001"
+    semantic_synthesis_model: str = "openai/gpt-4o-mini"
+    semantic_embedding_model: str = "text-embedding-3-small"
     cache_dir_name: str = DEFAULT_CACHE_DIR
     runs_dir_name: str = DEFAULT_RUNS_DIR
     logs_dir_name: str = DEFAULT_LOGS_DIR
@@ -56,7 +80,22 @@ class AppSettings(BaseSettings):
         path = Path(value)
         return path if path.is_absolute() else path
 
-    @field_validator("max_file_size_bytes", "max_total_bytes_scanned", "concurrency_limit", "git_velocity_lookback_days")
+    @field_validator(
+        "max_file_size_bytes",
+        "max_total_bytes_scanned",
+        "concurrency_limit",
+        "git_velocity_lookback_days",
+        "semantic_git_lookback_days",
+        "semantic_module_excerpt_lines",
+        "semantic_max_prompt_tokens",
+        "semantic_max_completion_tokens",
+        "semantic_completion_reserve_tokens",
+        "semantic_max_total_prompt_tokens",
+        "semantic_max_total_completion_tokens",
+        "semantic_max_requests_per_run",
+        "semantic_domain_min_clusters",
+        "semantic_domain_max_clusters",
+    )
     @classmethod
     def _ensure_positive(cls, value: int) -> int:
         if value <= 0:
@@ -90,3 +129,15 @@ class AppSettings(BaseSettings):
 
     def lineage_summary_path(self, run_dir: Path) -> Path:
         return run_dir / "lineage_summary.json"
+
+    def module_semantics_path(self, run_dir: Path) -> Path:
+        return run_dir / "module_semantics.json"
+
+    def documentation_drift_path(self, run_dir: Path) -> Path:
+        return run_dir / "documentation_drift.json"
+
+    def domain_map_path(self, run_dir: Path) -> Path:
+        return run_dir / "domain_map.json"
+
+    def day_one_answers_path(self, run_dir: Path) -> Path:
+        return run_dir / "day_one_answers.json"

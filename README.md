@@ -39,9 +39,9 @@ uv run python -m src.cli analyze --repo .
 uv run python -m src.cli query "What is this repository?"
 ```
 
-The `analyze` command now performs Stage 4 analysis. It accepts either a local
+The `analyze` command now performs Stage 6 analysis. It accepts either a local
 repository path or a Git URL and writes deterministic inventory, structural,
-module-graph, and survey-summary artifacts under `.cartography/`.
+architectural, lineage, and semantic artifacts under `.cartography/`.
 
 ## Stage 1 Typed Contracts
 
@@ -95,3 +95,36 @@ Stage 4 adds:
 Stage 4 remains architectural-only and does not introduce SQL lineage,
 Hydrologist logic, semantic indexing, LangGraph workflows, embeddings, or LLM
 execution.
+
+## Stage 5 Hydrologist Agent
+
+Stage 5 adds:
+- a `HydrologistAgent` that consumes manifest, structural, and module-graph
+  artifacts
+- deterministic lineage extraction across SQL, Python, and config inputs with
+  graceful degradation
+- typed `lineage_graph.json` and `lineage_summary.json` artifacts
+- stable `CONSUMES`, `PRODUCES`, and `CONFIGURES` relationships for downstream
+  graph consumers
+
+Stage 5 remains lineage-only and does not introduce semantic purpose
+statements, documentation-drift analysis, clustering, or Day-One synthesis.
+
+## Stage 6 Semanticist Agent
+
+Stage 6 adds:
+- a `SemanticistAgent` that consumes Surveyor and Hydrologist outputs together
+  with structural evidence
+- grounded module-purpose profiles with implementation evidence bundles
+- documentation drift detection with confidence and linked evidence
+- inferred business-domain clustering with deterministic fallback behavior
+- evidence-backed Day-One answers for onboarding and downstream Archivist flows
+- deterministic semantic artifacts:
+  - `module_semantics.json`
+  - `documentation_drift.json`
+  - `domain_map.json`
+  - `day_one_answers.json`
+
+Stage 6 keeps LLM-backed work optional behind provider and budget abstractions,
+falls back to static heuristics when providers are unavailable, and preserves
+stable artifact shapes for later stages.

@@ -1,0 +1,1 @@
+"""Semanticist integration fixture package."""
