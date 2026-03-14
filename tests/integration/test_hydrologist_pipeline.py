@@ -14,7 +14,7 @@ def _prepared_repo(path: Path) -> PreparedRepository:
 
 def test_hydrologist_generates_deterministic_lineage_graph_from_fixture() -> None:
     repo_root = Path('tests/fixtures/hydrologist_sql_repo').resolve()
-    settings = AppSettings(repo_root=repo_root)
+    settings = AppSettings(repo_root=repo_root, semantic_provider_enabled=False)
     manifest = build_repository_manifest(settings)
     prepared = _prepared_repo(repo_root)
     structural_index, _ = TreeSitterAnalyzer().analyze_manifest(prepared, manifest, run_id='run-1', artifact_dir='.cartography')

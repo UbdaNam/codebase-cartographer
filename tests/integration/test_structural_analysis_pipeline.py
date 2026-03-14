@@ -7,7 +7,7 @@ from src.orchestrator import CartographyOrchestrator
 
 def test_structural_pipeline_writes_deterministic_artifacts_for_polyglot_repo() -> None:
     repo_root = Path("tests/fixtures/structural_polyglot_repo").resolve()
-    settings = AppSettings(repo_root=repo_root)
+    settings = AppSettings(repo_root=repo_root, semantic_provider_enabled=False)
 
     summary = CartographyOrchestrator(settings).analyze(repo_root)
     run_dir = Path(settings.resolved_artifact_dir()) / "runs" / summary.run_id
@@ -24,7 +24,7 @@ def test_structural_pipeline_writes_deterministic_artifacts_for_polyglot_repo() 
 
 def test_structural_pipeline_reports_partial_and_unsupported_results() -> None:
     repo_root = Path("tests/fixtures/structural_malformed_repo").resolve()
-    settings = AppSettings(repo_root=repo_root)
+    settings = AppSettings(repo_root=repo_root, semantic_provider_enabled=False)
 
     summary = CartographyOrchestrator(settings).analyze(repo_root)
     run_dir = Path(settings.resolved_artifact_dir()) / "runs" / summary.run_id

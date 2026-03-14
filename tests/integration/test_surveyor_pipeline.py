@@ -17,7 +17,7 @@ def _copy_fixture(src: Path, dest: Path) -> Path:
 
 def test_surveyor_pipeline_writes_module_graph_and_summary(tmp_path: Path) -> None:
     repo_root = _copy_fixture(Path("tests/fixtures/surveyor_repo"), tmp_path / "surveyor_repo")
-    settings = AppSettings(repo_root=repo_root)
+    settings = AppSettings(repo_root=repo_root, semantic_provider_enabled=False)
 
     summary = CartographyOrchestrator(settings).analyze(repo_root)
     run_dir = Path(settings.resolved_artifact_dir()) / "runs" / summary.run_id
@@ -38,7 +38,7 @@ def test_surveyor_pipeline_writes_module_graph_and_summary(tmp_path: Path) -> No
 
 def test_surveyor_pipeline_degrades_gracefully_without_git_history(tmp_path: Path) -> None:
     repo_root = _copy_fixture(Path("tests/fixtures/surveyor_repo"), tmp_path / "surveyor_repo")
-    settings = AppSettings(repo_root=repo_root)
+    settings = AppSettings(repo_root=repo_root, semantic_provider_enabled=False)
 
     summary = CartographyOrchestrator(settings).analyze(repo_root)
     run_dir = Path(settings.resolved_artifact_dir()) / "runs" / summary.run_id
@@ -63,7 +63,7 @@ def test_surveyor_pipeline_collects_git_velocity_for_recent_repo(tmp_path: Path)
     subprocess.run(["git", "add", "."], cwd=repo_root, check=True, capture_output=True)
     subprocess.run(["git", "commit", "-m", "update"], cwd=repo_root, check=True, capture_output=True)
 
-    settings = AppSettings(repo_root=repo_root)
+    settings = AppSettings(repo_root=repo_root, semantic_provider_enabled=False)
     summary = CartographyOrchestrator(settings).analyze(repo_root)
     run_dir = Path(settings.resolved_artifact_dir()) / "runs" / summary.run_id
     survey_summary = json.loads((run_dir / "survey_summary.json").read_text(encoding="utf-8"))

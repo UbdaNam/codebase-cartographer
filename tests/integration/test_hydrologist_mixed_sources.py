@@ -14,7 +14,7 @@ def _prepared_repo(path: Path) -> PreparedRepository:
 
 def test_hydrologist_mixed_sources_include_sql_python_and_yaml_signals() -> None:
     repo_root = Path('tests/fixtures/hydrologist_python_repo').resolve()
-    settings = AppSettings(repo_root=repo_root)
+    settings = AppSettings(repo_root=repo_root, semantic_provider_enabled=False)
     manifest = build_repository_manifest(settings)
     prepared = _prepared_repo(repo_root)
     structural_index, _ = TreeSitterAnalyzer().analyze_manifest(prepared, manifest, run_id='run-mixed', artifact_dir='.cartography')
