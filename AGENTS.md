@@ -14,6 +14,8 @@ Auto-generated from all feature plans. Last updated: 2026-03-10
 - Project-controlled filesystem artifacts under `.cartography/`, including manifest, structural outputs, module graph artifacts, lineage graph artifacts, summaries, cache, and logs (006-hydrologist-agent)
 - Python 3.11+ + Pydantic v2, pydantic-settings, Typer, pytest, NetworkX, tree-sitter artifacts from Stage 3, sqlglot lineage artifacts from Stage 5, `httpx` for provider transport, optional OpenRouter-backed chat and embedding models (007-semanticist-layer)
 - Project-controlled filesystem artifacts under `.cartography/`, including manifest, structural outputs, module graph artifacts, lineage graph artifacts, semantic artifacts, run summaries, cache, and logs (007-semanticist-layer)
+- Python 3.11+ + Pydantic v2, pydantic-settings, Typer, pytest, NetworkX, existing Surveyor/Hydrologist/Semanticist artifacts, existing `httpx`-backed provider abstraction, LangGraph for Navigator orchestration (008-archivist-navigator)
+- Project-controlled filesystem artifacts under `.cartography/`, including run-scoped outputs, mirrored latest artifacts, semantic index files, trace logs, incremental metadata, and run summaries (008-archivist-navigator)
 
 - Python 3.11+ + uv, Typer, Pydantic, pytest (001-bootstrap-cartographer-foundation)
 
@@ -42,9 +44,9 @@ cd src; pytest; ruff check .
 Python 3.11+: Follow standard conventions
 
 ## Recent Changes
+- 008-archivist-navigator: Added Python 3.11+ + Pydantic v2, pydantic-settings, Typer, pytest, NetworkX, existing Surveyor/Hydrologist/Semanticist artifacts, existing `httpx`-backed provider abstraction, LangGraph for Navigator orchestration
 - 007-semanticist-layer: Added Python 3.11+ + Pydantic v2, pydantic-settings, Typer, pytest, NetworkX, tree-sitter artifacts from Stage 3, sqlglot lineage artifacts from Stage 5, `httpx` for provider transport, optional OpenRouter-backed chat and embedding models
 - 006-hydrologist-agent: Added Python 3.11+ + Pydantic v2, pydantic-settings, Typer, pytest, NetworkX, sqlglot
-- 005-surveyor-agent: Added Python 3.11+ + Pydantic v2, pydantic-settings, Typer, pytest, NetworkX
 
 
 <!-- MANUAL ADDITIONS START -->
