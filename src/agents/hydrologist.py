@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from contextlib import contextmanager
+import logging
 from pathlib import Path
 import re
 
@@ -29,18 +31,20 @@ except Exception:  # pragma: no cover
     sqlglot = None
     exp = None
 
-SQL_HINT_RE = re.compile(r"(?is)\b(select|with|insert\s+into|create\s+table)\b")
-PY_STRING_RE = re.compile(r"(?P<quote>\"\"\"|'''|\"|')(?P<body>.*?)(?P=quote)", re.DOTALL)
+SQL_HINT_RE = re.compile(
+    r"(?is)\b(select\b.+\bfrom\b|with\b.+\bselect\b|insert\s+into\b|create\s+(?:table|view)\b|merge\s+into\b|delete\s+from\b|update\b.+\bset\b)"
+)
 READ_FILE_RE = re.compile(r"(?P<func>read_csv|read_parquet|read_json)\(\s*[ruf]*['\"](?P<dataset>[^'\"]+)['\"]", re.IGNORECASE)
 WRITE_FILE_RE = re.compile(r"(?P<var>\w+)\.(?P<func>to_csv|to_parquet|to_json)\(\s*[ruf]*['\"](?P<dataset>[^'\"]+)['\"]", re.IGNORECASE)
 READ_TABLE_RE = re.compile(r"(?P<prefix>spark\.read|spark)\.(?:table|load)\(\s*[ruf]*['\"](?P<dataset>[^'\"]+)['\"]", re.IGNORECASE)
 WRITE_TABLE_RE = re.compile(r"(?P<prefix>write|spark\.write)\.(?:saveAsTable|insertInto|save)\(\s*[ruf]*['\"](?P<dataset>[^'\"]+)['\"]", re.IGNORECASE)
-SQL_EXEC_RE = re.compile(r"(?:read_sql|execute|sql)\(\s*[ruf]*(?P<quote>\"\"\"|'''|\"|')(?P<body>.*?)(?P=quote)", re.IGNORECASE | re.DOTALL)
+SQL_EXEC_RE = re.compile(r"(?<![\w])(?:read_sql|execute|sql)\(\s*[ruf]*(?P<quote>\"\"\"|'''|\"|')(?P<body>.*?)(?P=quote)", re.IGNORECASE | re.DOTALL)
 YAML_KEY_RE = re.compile(r"^(?P<key>source|sources|input|inputs|upstream|dataset|table|model|target|targets|output|outputs|destination):\s*(?P<value>.+)?$", re.IGNORECASE)
 DYNAMIC_SQL_RE = re.compile(r"\{.+?\}|%\(.+?\)s|\+\s*\w+")
 SQL_TABLE_FALLBACK_RE = re.compile(r"(?i)\b(?:from|join|into|table)\s+([A-Za-z_][A-Za-z0-9_$.]*)")
-EXECUTE_VARIABLE_RE = re.compile(r"(?:execute|read_sql|sql)\((?P<var>\w+)\)", re.IGNORECASE)
+EXECUTE_VARIABLE_RE = re.compile(r"(?<![\w])(?:execute|read_sql|sql)\((?P<var>\w+)\)", re.IGNORECASE)
 SQL_ASSIGNMENT_RE = re.compile(r"(?P<var>\w+)\s*=\s*[furbFURB]*(?P<quote>\"\"\"|'''|\"|')(?P<body>.*?)(?P=quote)", re.DOTALL)
+SQLGLOT_PARSER_LOGGER = logging.getLogger("sqlglot")
 
 
 class HydrologistAgent:
@@ -151,13 +155,16 @@ class HydrologistAgent:
         transformation_name = f"sql::{normalize_dataset_identifier(file_path)}"
         warnings: list[str] = []
         try:
-            signals = self._parse_sql_to_signals(file_path, sql_text, transformation_name, module_node)
+            signals, parsed_successfully = self._parse_sql_to_signals(file_path, sql_text, transformation_name, module_node)
         except Exception:
             fallback = self._fallback_sql_signals(file_path, sql_text, transformation_name, module_node)
             partial = not fallback or any(signal.is_partial for signal in fallback)
             if partial:
                 warnings.append(f"malformed_sql:{file_path}")
             return fallback, warnings, partial
+        if parsed_successfully:
+            partial = any(signal.is_partial for signal in signals)
+            return signals, warnings, partial
         if not signals:
             fallback = self._fallback_sql_signals(file_path, sql_text, transformation_name, module_node)
             partial = not fallback or any(signal.is_partial for signal in fallback)
@@ -186,11 +193,13 @@ class HydrologistAgent:
         assigned_sql: dict[str, tuple[str, int]] = {}
         for match in SQL_ASSIGNMENT_RE.finditer(content):
             body = match.group("body")
-            if SQL_HINT_RE.search(body):
+            if self._looks_like_lineage_sql(body):
                 assigned_sql[match.group("var")] = (body, match.start())
 
         for match in SQL_EXEC_RE.finditer(content):
             sql_body = match.group("body")
+            if not self._looks_like_lineage_sql(sql_body):
+                continue
             if DYNAMIC_SQL_RE.search(sql_body):
                 warnings.append(f"dynamic_python_sql:{file_path}:{line_number_for_offset(content, match.start())}")
                 partial = True
@@ -205,6 +214,8 @@ class HydrologistAgent:
             if variable_name not in assigned_sql:
                 continue
             sql_body, assignment_offset = assigned_sql[variable_name]
+            if not self._looks_like_lineage_sql(sql_body):
+                continue
             if DYNAMIC_SQL_RE.search(sql_body):
                 warnings.append(f"dynamic_python_sql:{file_path}:{line_number_for_offset(content, assignment_offset)}")
                 partial = True
@@ -214,14 +225,6 @@ class HydrologistAgent:
             warnings.extend(sql_warnings)
             partial = partial or sql_partial
 
-        for match in PY_STRING_RE.finditer(content):
-            body = match.group("body")
-            if not SQL_HINT_RE.search(body):
-                continue
-            extracted, sql_warnings, sql_partial = self._extract_sql_signals(file_path, body, module_node)
-            signals.extend(self._reframe_embedded_sql(content, match.start(), match.end(), extracted, transformation_name, module_id))
-            warnings.extend(sql_warnings)
-            partial = partial or sql_partial
         return signals, warnings, partial
 
     def _extract_yaml_signals(self, file_path: str, content: str, module_node: ModuleNode | None) -> tuple[list[LineageSignal], list[str], bool]:
@@ -264,13 +267,26 @@ class HydrologistAgent:
                 partial = partial or confidence == ConfidenceBand.LOW
         return signals, warnings, partial
 
-    def _parse_sql_to_signals(self, file_path: str, sql_text: str, transformation_name: str, module_node: ModuleNode | None) -> list[LineageSignal]:
+    def _parse_sql_to_signals(
+        self,
+        file_path: str,
+        sql_text: str,
+        transformation_name: str,
+        module_node: ModuleNode | None,
+    ) -> tuple[list[LineageSignal], bool]:
         module_id = module_node.node_id if module_node else file_path.replace("\\", "/")
         if sqlglot is None or exp is None:
-            return self._fallback_sql_signals(file_path, sql_text, transformation_name, module_node)
-        statements = sqlglot.parse(sql_text)
+            return self._fallback_sql_signals(file_path, sql_text, transformation_name, module_node), False
+        with self._suppress_sqlglot_command_warnings():
+            statements = sqlglot.parse(sql_text)
         signals: list[LineageSignal] = []
+        parsed_successfully = False
         for statement in statements:
+            if statement is None:
+                continue
+            parsed_successfully = True
+            if isinstance(statement, exp.Command):
+                continue
             produced: list[str] = []
             if isinstance(statement, exp.Create) and statement.this is not None:
                 produced.append(statement.this.sql())
@@ -283,7 +299,7 @@ class HydrologistAgent:
                 signals.append(LineageSignal(source_kind="sql", file_path=file_path, dataset_name=dataset_name, role="input", language="sql", transformation_name=transformation_name, module_or_file_id=module_id, analysis_method=AnalysisMethod.STATIC_ANALYSIS, confidence=ConfidenceBand.HIGH))
             for dataset_name in produced:
                 signals.append(LineageSignal(source_kind="sql", file_path=file_path, dataset_name=dataset_name, role="output", language="sql", transformation_name=transformation_name, module_or_file_id=module_id, analysis_method=AnalysisMethod.STATIC_ANALYSIS, confidence=ConfidenceBand.HIGH))
-        return signals
+        return signals, parsed_successfully
 
     def _fallback_sql_signals(self, file_path: str, sql_text: str, transformation_name: str, module_node: ModuleNode | None) -> list[LineageSignal]:
         module_id = module_node.node_id if module_node else file_path.replace("\\", "/")
@@ -352,3 +368,18 @@ class HydrologistAgent:
             is_partial=partial,
             warnings=tuple(["partial_lineage_signal"] if partial else []),
         )
+
+    def _looks_like_lineage_sql(self, sql_text: str) -> bool:
+        candidate = sql_text.strip()
+        if not candidate:
+            return False
+        return bool(SQL_HINT_RE.search(candidate))
+
+    @contextmanager
+    def _suppress_sqlglot_command_warnings(self):
+        previous_level = SQLGLOT_PARSER_LOGGER.level
+        SQLGLOT_PARSER_LOGGER.setLevel(logging.ERROR)
+        try:
+            yield
+        finally:
+            SQLGLOT_PARSER_LOGGER.setLevel(previous_level)
