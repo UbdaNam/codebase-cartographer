@@ -7,7 +7,7 @@ from src.orchestrator import CartographyOrchestrator
 
 def test_stage3_run_writes_summary_manifest_inventory_and_structural_outputs(tmp_path: Path) -> None:
     (tmp_path / "app.py").write_text("print('ok')", encoding="utf-8")
-    settings = AppSettings(repo_root=tmp_path)
+    settings = AppSettings(repo_root=tmp_path, semantic_provider_enabled=False)
 
     summary = CartographyOrchestrator(settings).analyze(tmp_path)
 

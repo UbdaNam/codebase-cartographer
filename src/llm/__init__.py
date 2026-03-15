@@ -1,1 +1,1 @@
-"""LLM boundary placeholder package."""
+"""LLM helper package for Semanticist provider abstractions."""

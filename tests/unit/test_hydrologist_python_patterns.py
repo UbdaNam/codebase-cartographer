@@ -23,3 +23,18 @@ def test_detect_python_ingestion_and_sql_patterns() -> None:
     assert ('mart.sales', 'output') in roles
     assert partial is False
     assert not warnings
+
+
+def test_python_helper_sql_name_does_not_trigger_embedded_sql_parsing() -> None:
+    agent = HydrologistAgent(AppSettings())
+    content = '''
+def cleanup() -> None:
+    """Drop tables and views from a schema."""
+    grant_sql("Drop tables and views from a schema.")
+'''
+
+    signals, warnings, partial = agent._extract_python_signals('jobs/helpers.py', content, None)
+
+    assert signals == []
+    assert warnings == []
+    assert partial is False
