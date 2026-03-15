@@ -3,8 +3,7 @@
 Production-minded codebase intelligence for large brownfield repositories.
 
 The project is being shaped as a LangGraph-oriented multi-agent system with
-Surveyor, Hydrologist, Semanticist, Archivist, and a later Navigator query
-agent. It is intended to build a living, queryable map of repository
+Surveyor, Hydrologist, Semanticist, Archivist, and Navigator. It is intended to build a living, queryable map of repository
 architecture, lineage, and semantic structure for rapid FDE onboarding while
 remaining safe, deterministic, incremental, and cost-bounded.
 
@@ -39,9 +38,20 @@ uv run python -m src.cli analyze --repo .
 uv run python -m src.cli query "What is this repository?"
 ```
 
-The `analyze` command now performs Stage 6 analysis. It accepts either a local
-repository path or a Git URL and writes deterministic inventory, structural,
-architectural, lineage, and semantic artifacts under `.cartography/`.
+The `analyze` command now performs the full Stage 7 pipeline. It accepts either
+a local repository path or a Git URL and writes deterministic inventory,
+structural, architectural, lineage, semantic, and final living artifacts under
+`.cartography/`.
+
+The `query` command now routes through the LangGraph-based Navigator and
+returns structured JSON answers backed by persisted artifacts. Free-text
+queries use an LLM planner over repository artifacts and the required tools
+when provider access is enabled; explicit `--query-type` invocations remain
+deterministic. It supports:
+- `find_implementation`
+- `trace_lineage`
+- `blast_radius`
+- `explain_module`
 
 ## Stage 1 Typed Contracts
 
@@ -128,3 +138,27 @@ Stage 6 adds:
 Stage 6 keeps LLM-backed work optional behind provider and budget abstractions,
 falls back to static heuristics when providers are unavailable, and preserves
 stable artifact shapes for later stages.
+
+## Stage 7 Archivist and Navigator
+
+Stage 7 adds:
+- an `ArchivistAgent` that consumes Surveyor, Hydrologist, and Semanticist
+  artifacts without recomputing upstream analysis
+- final living artifacts:
+  - `CODEBASE.md`
+  - `onboarding_brief.md`
+  - `lineage_graph.json`
+  - `semantic_index/`
+  - `cartography_trace.jsonl`
+- a LangGraph-based `NavigatorAgent` with retrieval-first, model-planned query
+  routing and exactly four tools:
+  - `find_implementation`
+  - `trace_lineage`
+  - `blast_radius`
+  - `explain_module`
+- incremental refresh planning based on the latest successful run and git
+  commit baselines
+
+Navigator responses include source file, line range where available, analysis
+method, and explicit trust labeling so static observations remain distinct from
+graph reasoning, artifact reuse, and LLM inference.
