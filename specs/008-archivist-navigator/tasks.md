@@ -17,12 +17,12 @@
 
 **Purpose**: Establish final-stage modules, schemas, utilities, and metadata seams shared by all later work.
 
-- [ ] T001 Create Archivist agent scaffold in `src/agents/archivist.py`
-- [ ] T002 [P] Create Navigator agent scaffold in `src/agents/navigator.py`
-- [ ] T003 [P] Define Archivist artifact schemas for `CODEBASE.md`, `onboarding_brief.md`, `lineage_graph.json`, `semantic_index`, and `cartography_trace.jsonl` in `src/models/archivist.py`
-- [ ] T004 [P] Define shared evidence and citation formatting utilities in `src/utils/citations.py`
-- [ ] T005 [P] Add run metadata and incremental baseline models in `src/models/run_metadata.py`
-- [ ] T006 Add final-stage configuration entries for artifact paths, LangGraph settings, and incremental refresh options in `src/config.py`
+- [X] T001 Create Archivist agent scaffold in `src/agents/archivist.py`
+- [X] T002 [P] Create Navigator agent scaffold in `src/agents/navigator.py`
+- [X] T003 [P] Define Archivist artifact schemas for `CODEBASE.md`, `onboarding_brief.md`, `lineage_graph.json`, `semantic_index`, and `cartography_trace.jsonl` in `src/models/archivist.py`
+- [X] T004 [P] Define shared evidence and citation formatting utilities in `src/utils/citations.py`
+- [X] T005 [P] Add run metadata and incremental baseline models in `src/models/run_metadata.py`
+- [X] T006 Add final-stage configuration entries for artifact paths, LangGraph settings, and incremental refresh options in `src/config.py`
 
 ---
 
@@ -32,12 +32,12 @@
 
 **CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T007 Define append-only trace event schema with confidence and method-type fields in `src/models/trace.py`
-- [ ] T008 [P] Implement artifact path helpers for final-stage outputs in `src/utils/artifacts.py`
-- [ ] T009 [P] Implement append-only `cartography_trace.jsonl` writer utilities in `src/utils/trace.py`
-- [ ] T010 [P] Implement semantic index storage primitives and metadata persistence in `src/index/semantic_index.py`
-- [ ] T011 [P] Add contract coverage for Archivist artifact schemas in `tests/contract/test_archivist_artifacts.py`
-- [ ] T012 [P] Add contract coverage for Navigator LangGraph request/response contracts in `tests/contract/test_navigator_contracts.py`
+- [X] T007 Define append-only trace event schema with confidence and method-type fields in `src/models/trace.py`
+- [X] T008 [P] Implement artifact path helpers for final-stage outputs in `src/utils/artifacts.py`
+- [X] T009 [P] Implement append-only `cartography_trace.jsonl` writer utilities in `src/utils/trace.py`
+- [X] T010 [P] Implement semantic index storage primitives and metadata persistence in `src/index/semantic_index.py`
+- [X] T011 [P] Add contract coverage for Archivist artifact schemas in `tests/contract/test_archivist_artifacts.py`
+- [X] T012 [P] Add contract coverage for Navigator LangGraph request/response contracts in `tests/contract/test_navigator_contracts.py`
 
 **Checkpoint**: Final-stage foundations are ready; living artifact generation, Navigator flows, and incremental refresh can proceed.
 
@@ -51,21 +51,21 @@
 
 ### Tests for User Story 1
 
-- [ ] T013 [P] [US1] Add unit tests for `generate_CODEBASE_md()` section rendering in `tests/unit/test_archivist_codebase_md.py`
-- [ ] T014 [P] [US1] Add unit tests for onboarding brief evidence formatting in `tests/unit/test_archivist_onboarding_brief.py`
-- [ ] T015 [P] [US1] Add unit tests for semantic index build/update behavior in `tests/unit/test_semantic_index.py`
-- [ ] T016 [P] [US1] Add integration coverage for final artifact generation in `tests/integration/test_archivist_pipeline.py`
+- [X] T013 [P] [US1] Add unit tests for `generate_CODEBASE_md()` section rendering in `tests/unit/test_archivist_codebase_md.py`
+- [X] T014 [P] [US1] Add unit tests for onboarding brief evidence formatting in `tests/unit/test_archivist_onboarding_brief.py`
+- [X] T015 [P] [US1] Add unit tests for semantic index build/update behavior in `tests/unit/test_semantic_index.py`
+- [X] T016 [P] [US1] Add integration coverage for final artifact generation in `tests/integration/test_archivist_pipeline.py`
 
 ### Implementation for User Story 1
 
-- [ ] T017 [P] [US1] Implement `generate_CODEBASE_md()` with required sections in `src/agents/archivist.py`
-- [ ] T018 [P] [US1] Implement `onboarding_brief.md` generation from Semanticist Day-One answers in `src/agents/archivist.py`
-- [ ] T019 [P] [US1] Implement final `lineage_graph.json` serialization and metadata preservation in `src/agents/archivist.py`
-- [ ] T020 [P] [US1] Implement semantic index build/update pipeline from module purpose statements in `src/index/semantic_index.py`
-- [ ] T021 [US1] Implement observed-vs-inferred labeling rules for final artifacts in `src/utils/citations.py`
-- [ ] T022 [US1] Ensure generated artifacts preserve evidence references in `src/agents/archivist.py`
-- [ ] T023 [US1] Wire Archivist artifact writing and mirrored latest-run handling in `src/utils/artifacts.py`
-- [ ] T024 [US1] Update `src/orchestrator.py` to include Archivist after Semanticist for analyze flows
+- [X] T017 [P] [US1] Implement `generate_CODEBASE_md()` with required sections in `src/agents/archivist.py`
+- [X] T018 [P] [US1] Implement `onboarding_brief.md` generation from Semanticist Day-One answers in `src/agents/archivist.py`
+- [X] T019 [P] [US1] Implement final `lineage_graph.json` serialization and metadata preservation in `src/agents/archivist.py`
+- [X] T020 [P] [US1] Implement semantic index build/update pipeline from module purpose statements in `src/index/semantic_index.py`
+- [X] T021 [US1] Implement observed-vs-inferred labeling rules for final artifacts in `src/utils/citations.py`
+- [X] T022 [US1] Ensure generated artifacts preserve evidence references in `src/agents/archivist.py`
+- [X] T023 [US1] Wire Archivist artifact writing and mirrored latest-run handling in `src/utils/artifacts.py`
+- [X] T024 [US1] Update `src/orchestrator.py` to include Archivist after Semanticist for analyze flows
 
 **Checkpoint**: User Story 1 is complete when the final pipeline emits all required living artifacts with deterministic structure and trust metadata.
 
@@ -79,21 +79,21 @@
 
 ### Tests for User Story 2
 
-- [ ] T025 [P] [US2] Add unit tests for LangGraph Navigator state transitions in `tests/unit/test_navigator_langgraph.py`
-- [ ] T026 [P] [US2] Add unit tests for Navigator citation and trust attachment in `tests/unit/test_navigator_citations.py`
-- [ ] T027 [P] [US2] Add integration coverage for Navigator queries with file/line/method citations in `tests/integration/test_navigator_queries.py`
+- [X] T025 [P] [US2] Add unit tests for LangGraph Navigator state transitions in `tests/unit/test_navigator_langgraph.py`
+- [X] T026 [P] [US2] Add unit tests for Navigator citation and trust attachment in `tests/unit/test_navigator_citations.py`
+- [X] T027 [P] [US2] Add integration coverage for Navigator queries with file/line/method citations in `tests/integration/test_navigator_queries.py`
 
 ### Implementation for User Story 2
 
-- [ ] T028 [P] [US2] Define LangGraph Navigator state model in `src/models/navigator.py`
-- [ ] T029 [P] [US2] Implement `classify_query` and `retrieve_relevant_artifacts` nodes in `src/agents/navigator.py`
-- [ ] T030 [P] [US2] Implement `select_tool`, `execute_tool`, `synthesize_response`, and `attach_citations_and_trust_metadata` nodes in `src/agents/navigator.py`
-- [ ] T031 [P] [US2] Implement `find_implementation(concept)` in `src/agents/navigator.py`
-- [ ] T032 [P] [US2] Implement `trace_lineage(dataset, direction)` in `src/agents/navigator.py`
-- [ ] T033 [P] [US2] Implement `blast_radius(module_path)` in `src/agents/navigator.py`
-- [ ] T034 [P] [US2] Implement `explain_module(path)` in `src/agents/navigator.py`
-- [ ] T035 [US2] Wire retrieval-first LangGraph assembly and tool routing in `src/agents/navigator.py`
-- [ ] T036 [US2] Update `src/cli.py` with query subcommand routing into the LangGraph Navigator
+- [X] T028 [P] [US2] Define LangGraph Navigator state model in `src/models/navigator.py`
+- [X] T029 [P] [US2] Implement `classify_query` and `retrieve_relevant_artifacts` nodes in `src/agents/navigator.py`
+- [X] T030 [P] [US2] Implement `select_tool`, `execute_tool`, `synthesize_response`, and `attach_citations_and_trust_metadata` nodes in `src/agents/navigator.py`
+- [X] T031 [P] [US2] Implement `find_implementation(concept)` in `src/agents/navigator.py`
+- [X] T032 [P] [US2] Implement `trace_lineage(dataset, direction)` in `src/agents/navigator.py`
+- [X] T033 [P] [US2] Implement `blast_radius(module_path)` in `src/agents/navigator.py`
+- [X] T034 [P] [US2] Implement `explain_module(path)` in `src/agents/navigator.py`
+- [X] T035 [US2] Wire retrieval-first LangGraph assembly and tool routing in `src/agents/navigator.py`
+- [X] T036 [US2] Update `src/cli.py` with query subcommand routing into the LangGraph Navigator
 
 **Checkpoint**: User Story 2 is complete when the query interface answers all four required query types through the LangGraph Navigator with explicit evidence and trust metadata.
 
@@ -107,18 +107,18 @@
 
 ### Tests for User Story 3
 
-- [ ] T037 [P] [US3] Add unit tests for incremental baseline detection and invalidation logic in `tests/unit/test_archivist_incremental.py`
-- [ ] T038 [P] [US3] Add unit tests for trace logging append and reuse-status behavior in `tests/unit/test_trace_logging.py`
-- [ ] T039 [P] [US3] Add integration coverage for incremental final-stage refresh in `tests/integration/test_archivist_incremental_pipeline.py`
+- [X] T037 [P] [US3] Add unit tests for incremental baseline detection and invalidation logic in `tests/unit/test_archivist_incremental.py`
+- [X] T038 [P] [US3] Add unit tests for trace logging append and reuse-status behavior in `tests/unit/test_trace_logging.py`
+- [X] T039 [P] [US3] Add integration coverage for incremental final-stage refresh in `tests/integration/test_archivist_incremental_pipeline.py`
 
 ### Implementation for User Story 3
 
-- [ ] T040 [P] [US3] Persist last analyzed commit metadata and source coverage in `src/models/run_metadata.py`
-- [ ] T041 [P] [US3] Implement changed-file detection from git diff/log in `src/utils/incremental.py`
-- [ ] T042 [P] [US3] Implement selective downstream artifact refresh decisions in `src/agents/archivist.py`
-- [ ] T043 [US3] Regenerate only affected final artifacts and semantic index segments in `src/agents/archivist.py`
-- [ ] T044 [US3] Wire incremental baseline loading and saving in `src/utils/artifacts.py`
-- [ ] T045 [US3] Update `src/orchestrator.py` to reuse final-stage artifacts when upstream inputs are unchanged
+- [X] T040 [P] [US3] Persist last analyzed commit metadata and source coverage in `src/models/run_metadata.py`
+- [X] T041 [P] [US3] Implement changed-file detection from git diff/log in `src/utils/incremental.py`
+- [X] T042 [P] [US3] Implement selective downstream artifact refresh decisions in `src/agents/archivist.py`
+- [X] T043 [US3] Regenerate only affected final artifacts and semantic index segments in `src/agents/archivist.py`
+- [X] T044 [US3] Wire incremental baseline loading and saving in `src/utils/artifacts.py`
+- [X] T045 [US3] Update `src/orchestrator.py` to reuse final-stage artifacts when upstream inputs are unchanged
 
 **Checkpoint**: User Story 3 is complete when reruns refresh only affected final-stage outputs and capture reuse versus regeneration deterministically.
 
@@ -128,12 +128,12 @@
 
 **Purpose**: Finish pipeline integration, documentation, and regression validation across all stories.
 
-- [ ] T046 [P] Add full final pipeline integration coverage for Archivist after Semanticist in `tests/integration/test_final_pipeline.py`
-- [ ] T047 [P] Add regression coverage for deterministic final artifact ordering and query outputs in `tests/integration/test_archivist_determinism.py`
-- [ ] T048 Update `src/models/state.py` with Archivist and Navigator run-summary fields
-- [ ] T049 Update `README.md` for analyze and query workflows
-- [ ] T050 Validate final output placement, evidence preservation, and partial-result behavior in `src/utils/artifacts.py`
-- [ ] T051 Run quickstart validation from `specs/008-archivist-navigator/quickstart.md`
+- [X] T046 [P] Add full final pipeline integration coverage for Archivist after Semanticist in `tests/integration/test_final_pipeline.py`
+- [X] T047 [P] Add regression coverage for deterministic final artifact ordering and query outputs in `tests/integration/test_archivist_determinism.py`
+- [X] T048 Update `src/models/state.py` with Archivist and Navigator run-summary fields
+- [X] T049 Update `README.md` for analyze and query workflows
+- [X] T050 Validate final output placement, evidence preservation, and partial-result behavior in `src/utils/artifacts.py`
+- [X] T051 Run quickstart validation from `specs/008-archivist-navigator/quickstart.md`
 
 ---
 
