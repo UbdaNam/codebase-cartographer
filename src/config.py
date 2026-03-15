@@ -64,6 +64,10 @@ class AppSettings(BaseSettings):
     semantic_purpose_model: str = "google/gemini-2.0-flash-001"
     semantic_synthesis_model: str = "openai/gpt-4o-mini"
     semantic_embedding_model: str = "text-embedding-3-small"
+    navigator_agent_model: str = "openai/gpt-4o-mini"
+    navigator_synthesis_model: str = "openai/gpt-4o-mini"
+    navigator_max_tool_rounds: int = 3
+    navigator_max_context_tokens: int = 12_000
     cache_dir_name: str = DEFAULT_CACHE_DIR
     runs_dir_name: str = DEFAULT_RUNS_DIR
     logs_dir_name: str = DEFAULT_LOGS_DIR
@@ -95,6 +99,8 @@ class AppSettings(BaseSettings):
         "semantic_max_requests_per_run",
         "semantic_domain_min_clusters",
         "semantic_domain_max_clusters",
+        "navigator_max_tool_rounds",
+        "navigator_max_context_tokens",
     )
     @classmethod
     def _ensure_positive(cls, value: int) -> int:
@@ -141,3 +147,33 @@ class AppSettings(BaseSettings):
 
     def day_one_answers_path(self, run_dir: Path) -> Path:
         return run_dir / "day_one_answers.json"
+
+    def codebase_md_path(self, run_dir: Path) -> Path:
+        return run_dir / "CODEBASE.md"
+
+    def onboarding_brief_path(self, run_dir: Path) -> Path:
+        return run_dir / "onboarding_brief.md"
+
+    def semantic_index_dir(self, run_dir: Path) -> Path:
+        return run_dir / "semantic_index"
+
+    def trace_log_path(self, run_dir: Path) -> Path:
+        return run_dir / "cartography_trace.jsonl"
+
+    def incremental_baseline_path(self, run_dir: Path) -> Path:
+        return run_dir / "incremental_baseline.json"
+
+    def latest_codebase_md_path(self) -> Path:
+        return self.resolved_artifact_dir() / "CODEBASE.md"
+
+    def latest_onboarding_brief_path(self) -> Path:
+        return self.resolved_artifact_dir() / "onboarding_brief.md"
+
+    def latest_lineage_graph_path(self) -> Path:
+        return self.resolved_artifact_dir() / "lineage_graph.json"
+
+    def latest_semantic_index_dir(self) -> Path:
+        return self.resolved_artifact_dir() / "semantic_index"
+
+    def latest_trace_log_path(self) -> Path:
+        return self.resolved_artifact_dir() / "cartography_trace.jsonl"
