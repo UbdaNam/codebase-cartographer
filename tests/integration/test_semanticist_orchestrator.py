@@ -13,3 +13,5 @@ def test_orchestrator_runs_semanticist_after_hydrologist() -> None:
     assert summary.lineage_graph_path
     assert summary.module_semantics_path
     assert summary.day_one_answers_path
+    assert summary.codebase_md_path
+    assert summary.semantic_index_path
